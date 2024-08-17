@@ -32,6 +32,7 @@ module.exports = {
         text: "rgba(0, 0, 0, 0.5)",
         "light-green": "#00FF66",
         "border-line": "rgba(0, 0, 0, 0.4)",
+        inputBg: "#F5F5F5",
       },
       fontFamily: {
         poppins: '"Poppins", sans-serif',
