@@ -10,7 +10,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-primary text-2xl font-inter font-bold leading-6 tracking-wide">
-              TechNest
+              <Link href={"/"}>TechNest</Link>
             </h2>
           </div>
           <div>
@@ -19,13 +19,13 @@ const Navbar = () => {
                 <Link href={"/"}>Home</Link>
               </li>
               <li className="text-primary text-base font-poppins leading-6">
-                <Link href={"/"}>Contact</Link>
+                <Link href={"/contact"}>Contact</Link>
               </li>
               <li className="text-primary text-base font-poppins leading-6">
-                <Link href={"/"}>About</Link>
+                <Link href={"/about"}>About</Link>
               </li>
               <li className="text-primary text-base font-poppins leading-6">
-                <Link href={"/"}>Sign Up</Link>
+                <Link href={"/signup"}>Sign Up</Link>
               </li>
             </ul>
           </div>
