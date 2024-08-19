@@ -3,6 +3,7 @@ import { FaAngleRight } from "react-icons/fa6";
 import appleLogo from "/public/apple_logo.png";
 import iphoneImage from "/public/iphone_image.png";
 import Link from "next/link";
+import { FlashSale } from "@/components";
 
 export default function Home() {
   return (
@@ -68,6 +69,9 @@ export default function Home() {
               />
             </div>
           </div>
+        </div>
+        <div className="py-[140px]">
+          <FlashSale />
         </div>
       </div>
     </section>
