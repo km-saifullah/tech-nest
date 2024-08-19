@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import Navbar from "@/components/Navbar";
 import "./globals.css";
+import { Footer } from "@/components";
 
 export const metadata = {
   title: "TechNest",
@@ -14,6 +15,7 @@ export default function RootLayout({ children }) {
         <Header />
         <Navbar />
         {children}
+        <Footer />
       </body>
     </html>
   );

@@ -10,7 +10,7 @@ module.exports = {
       sm: "320px",
       md: "640px",
       lg: "768px",
-      xl: "1040px",
+      xl: "1140px",
       "2xl": "1280px",
     },
     container: {
@@ -20,8 +20,8 @@ module.exports = {
         sm: "2rem",
         md: "2rem",
         lg: "4rem",
-        xl: "5rem",
-        "2xl": "6rem",
+        xl: "1rem",
+        "2xl": "2rem",
       },
     },
     extend: {
