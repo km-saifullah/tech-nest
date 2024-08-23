@@ -112,7 +112,7 @@ const Footer = () => {
                 <div>
                   <Image src={qrcode} alt="QRcode" />
                 </div>
-                <div className="flex items-center justify-between gap-x-2 flex-col">
+                <div className="flex items-center justify-between gap-x-2 gap-y-3 flex-col">
                   <Image src={playstore} alt="google playstore" />
                   <Image src={appstore} alt="apple app store" />
                 </div>
