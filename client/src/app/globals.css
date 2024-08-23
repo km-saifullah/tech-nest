@@ -5,8 +5,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 @layer components {
   .active {
     @apply underline;
@@ -22,5 +20,8 @@
   }
   .sub-heading {
     @apply text-primary text-base font-poppins font-medium leading-6;
+  }
+  .about-card {
+    @apply text-light border-transparent;
   }
 }
