@@ -34,7 +34,7 @@ const Navbar = () => {
               <input
                 type="text"
                 placeholder="What are you looking for?"
-                className="bg-transparent outline-none text-text font-poppins font-normal leading-[18px] w-[153px]"
+                className="bg-transparent border-none border-transparent outline-none outline-transparent text-text font-poppins font-normal leading-[18px] w-[153px]"
               />
               <IoSearchOutline className="h-6 w-6 text-primary cursor-pointer" />
             </div>

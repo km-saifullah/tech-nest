@@ -1,7 +1,7 @@
 import Header from "@/components/Header";
 import Navbar from "@/components/Navbar";
-import "./globals.css";
 import { Footer } from "@/components";
+import "./globals.css";
 
 export const metadata = {
   title: "TechNest",
