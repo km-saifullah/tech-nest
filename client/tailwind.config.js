@@ -39,5 +39,9 @@ module.exports = {
         inter: '"Inter", sans-serif',
       },
     },
+    daisyui: {
+      themes: ["light", "dark", "cupcake"],
+    },
   },
+  plugins: [require("daisyui")],
 };

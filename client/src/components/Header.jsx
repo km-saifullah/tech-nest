@@ -21,7 +21,7 @@ const Header = () => {
             <select
               name="English"
               id=""
-              className="bg-transparent border-none border-transparent text-light px-3 outline-none outline-transparent text-[14px] font-normal font-poppins leading-[21px]"
+              className="bg-primary border-none border-transparent text-light px-3 outline-none outline-transparent text-[14px] font-normal font-poppins leading-[21px]"
             >
               <option>English</option>
               <option>Bangla</option>
