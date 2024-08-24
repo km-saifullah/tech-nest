@@ -38,46 +38,46 @@ const About = () => {
           </div>
         </div>
         <div className="flex items-center justify-between pt-36">
-          <div className="w-[270px]">
-            <div className="text-primary border border-border-line py-7 px-12 flex items-center justify-center flex-col space-y-4 rounded group hover:about-card bg-transparent hover:bg-secondary transition-all duration-300">
+          <div className="w-[275px]">
+            <div className="text-primary border border-border-line py-7 px-9 flex items-center justify-center flex-col space-y-4 rounded group hover:about-card bg-transparent hover:bg-secondary transition-all duration-300">
               <div className="p-3 bg-primary group-hover:bg-light rounded-full">
                 <FaShoppingBasket className="w-10 h-10 text-light group-hover:text-primary" />
               </div>
               <h3 className="text-3xl font-inter font-bold leading-7">10.5k</h3>
-              <p className="text-base font-poppins font-normal leading-5">
+              <p className="text-sm font-poppins font-normal leading-5">
                 Sallers active our site
               </p>
             </div>
           </div>
-          <div className="w-[270px]">
-            <div className="text-primary border border-border-line py-7 px-12 flex items-center justify-center flex-col space-y-4 rounded group hover:about-card bg-transparent hover:bg-secondary transition-all duration-300">
+          <div className="w-[275px]">
+            <div className="text-primary border border-border-line py-7 px-9 flex items-center justify-center flex-col space-y-4 rounded group hover:about-card bg-transparent hover:bg-secondary transition-all duration-300">
               <div className="p-3 bg-primary group-hover:bg-light rounded-full">
                 <FiDollarSign className="w-10 h-10 text-light group-hover:text-primary" />
               </div>
               <h3 className="text-3xl font-inter font-bold leading-7">33k</h3>
-              <p className="text-base font-poppins font-normal leading-5">
+              <p className="text-sm font-poppins font-normal leading-5">
                 Montly Product Sale
               </p>
             </div>
           </div>
-          <div className="w-[270px]">
-            <div className="text-primary border border-border-line py-7 px-12 flex items-center justify-center flex-col space-y-4 rounded group hover:about-card bg-transparent hover:bg-secondary transition-all duration-300">
+          <div className="w-[275px]">
+            <div className="text-primary border border-border-line py-7 px-9 flex items-center justify-center flex-col space-y-4 rounded group hover:about-card bg-transparent hover:bg-secondary transition-all duration-300">
               <div className="p-3 bg-primary group-hover:bg-light rounded-full">
                 <IoIosPeople className="w-10 h-10 text-light group-hover:text-primary" />
               </div>
               <h3 className="text-3xl font-inter font-bold leading-7">45.5k</h3>
-              <p className="text-base font-poppins font-normal leading-5">
+              <p className="text-sm font-poppins font-normal leading-5">
                 Customer action in our site
               </p>
             </div>
           </div>
-          <div className="w-[270px]">
-            <div className="text-primary border border-border-line py-7 px-12 flex items-center justify-center flex-col space-y-4 rounded group hover:about-card bg-transparent hover:bg-secondary transition-all duration-300">
+          <div className="w-[275px]">
+            <div className="text-primary border border-border-line py-7 px-9 flex items-center justify-center flex-col space-y-4 rounded group hover:about-card bg-transparent hover:bg-secondary transition-all duration-300">
               <div className="p-3 bg-primary group-hover:bg-light rounded-full">
                 <TbMoneybag className="w-10 h-10 text-light group-hover:text-primary" />
               </div>
               <h3 className="text-3xl font-inter font-bold leading-7">25k</h3>
-              <p className="text-base font-poppins font-normal leading-5">
+              <p className="text-sm font-poppins font-normal leading-5">
                 Anual gross sale in our site
               </p>
             </div>
@@ -96,7 +96,7 @@ const About = () => {
               <h4 className="text-primary text-3xl font-inter font-bold leading-8">
                 Scarlet Johnson
               </h4>
-              <p className="text-primary text-base font-normal font-poppins leading-6">
+              <p className="text-primary text-sm font-normal font-poppins leading-6">
                 Founder & Chairman
               </p>
             </div>
@@ -113,7 +113,7 @@ const About = () => {
               <h4 className="text-primary text-3xl font-inter font-bold leading-8">
                 Taylor Swift
               </h4>
-              <p className="text-primary text-base font-normal font-poppins leading-6">
+              <p className="text-primary text-sm font-normal font-poppins leading-6">
                 Managing Director
               </p>
             </div>
@@ -130,7 +130,7 @@ const About = () => {
               <h4 className="text-primary text-3xl font-inter font-bold leading-8">
                 John Cena
               </h4>
-              <p className="text-primary text-base font-normal font-poppins leading-6">
+              <p className="text-primary text-sm font-normal font-poppins leading-6">
                 Product Designer
               </p>
             </div>

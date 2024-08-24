@@ -1,7 +1,27 @@
+"use client";
 import { HiOutlinePhone } from "react-icons/hi2";
 import { GoMail } from "react-icons/go";
+import { useState } from "react";
 
 const Contact = () => {
+  const [contactData, setContactData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
+
+  const handleContactData = (e) => {
+    const contactInfo = { ...contactData };
+    contactInfo[e.target.name] = e.target.value;
+    setContactData(contactInfo);
+  };
+
+  const handleSendMessage = (e) => {
+    console.log("clicked");
+    console.log(contactData);
+    e.preventDefault();
+  };
   return (
     <section className="pt-20 pb-28">
       <div className="container">
@@ -53,6 +73,9 @@ const Contact = () => {
                     type="text"
                     placeholder="Your Name"
                     className="w-[235px] bg-inputBg py-3 px-4 rounded text-text font-normal font-poppins text-base leading-6 outline-none border-none"
+                    name="name"
+                    value={contactData.name}
+                    onChange={handleContactData}
                   />
                 </div>
                 <div>
@@ -60,6 +83,9 @@ const Contact = () => {
                     type="text"
                     placeholder="Your Email"
                     className="w-[235px] bg-inputBg py-3 px-4 rounded text-text font-normal font-poppins text-base leading-6 outline-none border-none"
+                    name="email"
+                    value={contactData.email}
+                    onChange={handleContactData}
                   />
                 </div>
                 <div>
@@ -67,20 +93,27 @@ const Contact = () => {
                     type="text"
                     placeholder="Your Phone"
                     className="w-[235px] bg-inputBg py-3 px-4 rounded text-text font-normal font-poppins text-base leading-6 outline-none border-none"
+                    name="phone"
+                    value={contactData.phone}
+                    onChange={handleContactData}
                   />
                 </div>
               </div>
               <div className="py-8">
                 <textarea
-                  name=""
                   id=""
                   placeholder="Your Message"
                   rows={8}
                   className="w-[737px] bg-inputBg py-3 px-4 rounded text-text font-normal font-poppins text-base leading-6 outline-none border-none"
+                  name="message"
+                  value={contactData.message}
+                  onChange={handleContactData}
                 ></textarea>
               </div>
               <div className="flex items-end justify-end">
-                <button className="btn">Send Message</button>
+                <button className="btn" onClick={handleSendMessage}>
+                  Send Message
+                </button>
               </div>
             </form>
           </div>
