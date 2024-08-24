@@ -1,9 +1,35 @@
+"use client";
 import Image from "next/image";
 import { FcGoogle } from "react-icons/fc";
 import signup_image from "/public/signup_image.png";
 import Link from "next/link";
+import { useState } from "react";
 
 const Signup = () => {
+  const [registerData, setRegisterData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    password: "",
+  });
+
+  const handleRegisterData = (e) => {
+    const registerInfo = { ...registerData };
+    registerInfo[e.target.name] = e.target.value;
+    setRegisterData(registerInfo);
+  };
+
+  const handleCreateAccount = (e) => {
+    console.log("Clicked");
+    console.log(registerData);
+    setRegisterData({
+      name: "",
+      email: "",
+      phone: "",
+      password: "",
+    });
+    e.preventDefault();
+  };
   return (
     <div className="pt-14 pb-32">
       <div className="container">
@@ -28,24 +54,35 @@ const Signup = () => {
                   type="text"
                   placeholder="Name"
                   className="w-full py-2 border-none outline-none text-base text-text font-poppins font-normal leading-6"
+                  name="name"
+                  value={registerData.name}
+                  onChange={handleRegisterData}
                 />
               </div>
               <div className="border-b">
                 <input
-                  type="text"
+                  type="email"
                   placeholder="Email or Phone Number"
                   className="w-full py-2 border-none outline-none text-base text-text font-poppins font-normal leading-6"
+                  name="email"
+                  value={registerData.email}
+                  onChange={handleRegisterData}
                 />
               </div>
               <div className="border-b">
                 <input
-                  type="text"
+                  type="password"
                   placeholder="Password"
                   className="w-full py-2 border-none outline-none text-base text-text font-poppins font-normal leading-6"
+                  name="password"
+                  value={registerData.password}
+                  onChange={handleRegisterData}
                 />
               </div>
               <div className="w-full">
-                <button className="btn w-full">Create Account</button>
+                <button className="btn w-full" onClick={handleCreateAccount}>
+                  Create Account
+                </button>
               </div>
             </form>
             <div className="w-full flex items-center justify-center gap-x-4 border border-border-line cursor-pointer py-4 rounded mt-4 mb-8">
