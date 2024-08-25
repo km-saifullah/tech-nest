@@ -70,7 +70,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="py-[140px]">
+        <div className="py-[100px]">
           <FlashSale />
         </div>
       </div>
