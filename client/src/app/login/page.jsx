@@ -69,7 +69,10 @@ const Login = () => {
                 />
               </div>
               <div className="flex items-center justify-between">
-                <button className="btn" onClick={handleLogin}>
+                <button
+                  className="btn hover:text-primary hover:bg-white"
+                  onClick={handleLogin}
+                >
                   Login
                 </button>
                 <button

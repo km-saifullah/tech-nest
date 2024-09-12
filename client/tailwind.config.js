@@ -38,6 +38,7 @@ module.exports = {
         poppins: '"Poppins", sans-serif',
         inter: '"Inter", sans-serif',
       },
+      backgroundImage: {},
     },
     daisyui: {
       themes: ["light", "dark", "cupcake"],

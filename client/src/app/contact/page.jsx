@@ -111,7 +111,10 @@ const Contact = () => {
                 ></textarea>
               </div>
               <div className="flex items-end justify-end">
-                <button className="btn" onClick={handleSendMessage}>
+                <button
+                  className="btn hover:text-primary hover:bg-white"
+                  onClick={handleSendMessage}
+                >
                   Send Message
                 </button>
               </div>

@@ -80,7 +80,10 @@ const Signup = () => {
                 />
               </div>
               <div className="w-full">
-                <button className="btn w-full" onClick={handleCreateAccount}>
+                <button
+                  className="btn w-full hover:text-primary hover:bg-white"
+                  onClick={handleCreateAccount}
+                >
                   Create Account
                 </button>
               </div>

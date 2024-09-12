@@ -39,8 +39,12 @@ const Navbar = () => {
               <IoSearchOutline className="h-6 w-6 text-primary cursor-pointer" />
             </div>
             <div className="flex items-center gap-x-4">
-              <FaRegHeart className="h-6 w-6 text-primary cursor-pointer" />
-              <IoCartOutline className="h-6 w-6 text-primary cursor-pointer" />
+              <Link href={"/wishlist"}>
+                <FaRegHeart className="h-6 w-6 text-primary cursor-pointer" />
+              </Link>
+              <Link href={"/cart"}>
+                <IoCartOutline className="h-6 w-6 text-primary cursor-pointer" />
+              </Link>
             </div>
           </div>
         </div>
