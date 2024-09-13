@@ -361,7 +361,7 @@ const FlashSale = () => {
         </Swiper>
       </div>
       <div className="flex items-center justify-center pt-9">
-        <Link href={"/products"}>
+        <Link href={"/flash-sale"}>
           <button className="btn hover:bg-primary hover:text-light">
             View All Products
           </button>

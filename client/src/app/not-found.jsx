@@ -13,7 +13,9 @@ const NotFound = () => {
             Your visited page not found. You may go home page.
           </p>
           <Link href={"/"}>
-            <button className="btn">Back to home page</button>
+            <button className="btn hover:text-primary hover:bg-white">
+              Back to home page
+            </button>
           </Link>
         </div>
       </div>

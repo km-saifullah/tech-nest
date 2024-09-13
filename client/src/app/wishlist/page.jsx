@@ -4,7 +4,7 @@ import cooler from "/public/cooler.png";
 import keybaord from "/public/ak_keyboard.png";
 import gamepad from "/public/usb_gamepad.png";
 
-const page = () => {
+const Wishlist = () => {
   return (
     <section className="">
       <div className="container">
@@ -183,4 +183,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Wishlist;

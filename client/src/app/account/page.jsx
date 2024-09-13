@@ -150,7 +150,9 @@ const Account = () => {
                   <button>Cancel</button>
                 </div>
                 <div>
-                  <button className="btn">Save Changes</button>
+                  <button className="btn hover:text-primary hover:bg-white">
+                    Save Changes
+                  </button>
                 </div>
               </div>
             </form>
