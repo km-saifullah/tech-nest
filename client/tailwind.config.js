@@ -38,7 +38,9 @@ module.exports = {
         poppins: '"Poppins", sans-serif',
         inter: '"Inter", sans-serif',
       },
-      backgroundImage: {},
+      backgroundImage: {
+        productBanner: "url('/product_banner.png')",
+      },
     },
     daisyui: {
       themes: ["light", "dark", "cupcake"],
