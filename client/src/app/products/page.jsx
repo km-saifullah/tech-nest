@@ -1,5 +1,6 @@
 import Image from "next/image";
 import gamepad from "/public/usb_gamepad.png";
+import ps5 from "/public/ps5.png";
 
 const Products = () => {
   return (
@@ -37,20 +38,20 @@ const Products = () => {
           <div className="bg-inputBg w-[250px] p-5 rounded-md">
             <div className="w-[200px] h-[160px] overflow-hidden flex items-center justify-center">
               <Image
-                src={gamepad}
+                src={ps5}
                 alt="product name"
                 className="w-full h-full object-cover"
               />
             </div>
             <div className="space-y-1 pt-2">
               <h2 className="text-base text-primary font-bold font-inter leading-6">
-                USB Gamepad
+                PS5 Controller
               </h2>
               <p className="text-text text-sm font-poppins font-normal leading-6">
                 Premium quality
               </p>
               <h3 className="text-secondary font-semibold font-poppins text-base leading-6">
-                $350
+                $500
               </h3>
               <div>
                 <button className="bg-secondary text-white text-base font-poppins font-normal leading-6 px-4 py-2 rounded">
