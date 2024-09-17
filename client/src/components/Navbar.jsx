@@ -1,7 +1,9 @@
+"use client";
 import Link from "next/link";
 import { IoSearchOutline } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa";
 import { IoCartOutline } from "react-icons/io5";
+import NavLink from "./Navlink";
 
 const Navbar = () => {
   return (
@@ -15,17 +17,17 @@ const Navbar = () => {
           </div>
           <div>
             <ul className="flex items-center justify-center gap-x-12">
-              <li className="text-primary text-base font-poppins leading-6 active">
-                <Link href={"/"}>Home</Link>
+              <li className="text-primary text-base font-poppins leading-6">
+                <NavLink href="/">Home</NavLink>
               </li>
               <li className="text-primary text-base font-poppins leading-6">
-                <Link href={"/contact"}>Contact</Link>
+                <NavLink href="/contact">Contact</NavLink>
               </li>
               <li className="text-primary text-base font-poppins leading-6">
-                <Link href={"/about"}>About</Link>
+                <NavLink href="/about">About</NavLink>
               </li>
               <li className="text-primary text-base font-poppins leading-6">
-                <Link href={"/signup"}>Sign Up</Link>
+                <NavLink href={"/signup"}>Sign Up</NavLink>
               </li>
             </ul>
           </div>

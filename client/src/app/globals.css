@@ -7,7 +7,7 @@
 
 @layer components {
   .active {
-    @apply underline;
+    @apply underline transition-all duration-300 ease-linear font-semibold;
   }
   .btn {
     @apply bg-secondary py-4 px-12 rounded text-light font-poppins text-base leading-4 font-medium;
