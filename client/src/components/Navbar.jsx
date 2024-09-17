@@ -3,6 +3,7 @@ import Link from "next/link";
 import { IoSearchOutline } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa";
 import { IoCartOutline } from "react-icons/io5";
+import { FaUser } from "react-icons/fa";
 import NavLink from "./Navlink";
 
 const Navbar = () => {
@@ -46,6 +47,9 @@ const Navbar = () => {
               </Link>
               <Link href={"/cart"}>
                 <IoCartOutline className="h-6 w-6 text-primary cursor-pointer" />
+              </Link>
+              <Link href={"/account"}>
+                <FaUser className="h-6 w-6 text-secondary cursor-pointer" />
               </Link>
             </div>
           </div>

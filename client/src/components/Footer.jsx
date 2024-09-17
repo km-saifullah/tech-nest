@@ -62,19 +62,19 @@ const Footer = () => {
               </h6>
               <ul className="space-y-4">
                 <li className="text-light text-base font-poppins font-normal leading-6">
-                  <Link href={"/"}>My Account</Link>
+                  <Link href={"/account"}>My Account</Link>
                 </li>
                 <li className="text-light text-base font-poppins font-normal leading-6">
                   <Link href={"/signup"}>Login/Register</Link>
                 </li>
                 <li className="text-light text-base font-poppins font-normal leading-6">
-                  <Link href={"/"}>Cart</Link>
+                  <Link href={"/cart"}>Cart</Link>
                 </li>
                 <li className="text-light text-base font-poppins font-normal leading-6">
-                  <Link href={"/"}>Wishlist</Link>
+                  <Link href={"/wishlist"}>Wishlist</Link>
                 </li>
                 <li className="text-light text-base font-poppins font-normal leading-6">
-                  <Link href={"/"}>Shop</Link>
+                  <Link href={"/products"}>Shop</Link>
                 </li>
               </ul>
             </div>
