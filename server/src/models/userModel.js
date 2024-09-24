@@ -1,5 +1,7 @@
 import { mongoose, Schema } from 'mongoose'
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+import { accessTokenSecret, refreshTokenSecret } from '../config/index.js'
 
 const userSchema = new Schema(
   {
@@ -24,14 +26,16 @@ const userSchema = new Schema(
       minlength: [8, 'Password minimum length is 8'],
     },
     emailVerified: {
-      type: Boolean,
-      default: false,
+      type: Date,
     },
     role: {
       type: String,
       enum: ['user', 'seller', 'admin', 'editor'],
       lowercase: true,
       default: 'user',
+    },
+    refreshToken: {
+      type: String,
     },
   },
   {
@@ -49,6 +53,39 @@ userSchema.pre('save', async function (next) {
 
   next()
 })
+
+// generate accessToken and refreshToken
+userSchema.methods.generateAccessToken = async function () {
+  return jwt.sign(
+    {
+      id: this._id,
+      email: this.email,
+    },
+    accessTokenSecret,
+    { expiresIn: 60 * 60 }
+  )
+}
+
+userSchema.methods.generateRefreshToken = async function () {
+  return jwt.sign(
+    {
+      id: this._id,
+      email: this.email,
+    },
+    refreshTokenSecret,
+    { expiresIn: 60 * 60 }
+  )
+}
+
+// jwt token verification
+userSchema.methods.verifyAccessToken = async function (token) {
+  return jwt.verify(token, accessTokenSecret, function (err, decoded) {
+    if (err) {
+      return null
+    }
+    return decoded
+  })
+}
 
 const User = mongoose.model('User', userSchema)
 

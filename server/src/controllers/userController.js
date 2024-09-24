@@ -29,7 +29,10 @@ const createUser = async (req, res) => {
       email,
       password,
     })
-    await sendVerificationEmail(user.email, verifyEmailTemplate())
+
+    let link = await user.generateAccessToken()
+
+    await sendVerificationEmail(user.email, verifyEmailTemplate(link))
 
     return res.status(201).json(apiResponse(201, 'user created', { user }))
   } catch (err) {
