@@ -1,8 +1,9 @@
 import { mongoose, Schema } from 'mongoose'
+import bcrypt from 'bcrypt'
 
 const userSchema = new Schema(
   {
-    fullname: {
+    fullName: {
       type: String,
       required: true,
       trim: true,
@@ -23,7 +24,7 @@ const userSchema = new Schema(
       minlength: [8, 'Password minimum length is 8'],
     },
     emailVerified: {
-      type: Date,
+      type: Boolean,
       default: false,
     },
     role: {
@@ -37,6 +38,17 @@ const userSchema = new Schema(
     timestamps: true,
   }
 )
+
+// hash password
+userSchema.pre('save', async function (next) {
+  // only run thus function if password was actually modified
+  if (!this.isModified('password')) return next()
+
+  // hash password with cost of 10
+  this.password = await bcrypt.hash(this.password, 10)
+
+  next()
+})
 
 const User = mongoose.model('User', userSchema)
 
