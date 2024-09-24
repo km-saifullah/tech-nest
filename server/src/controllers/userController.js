@@ -9,6 +9,7 @@ const getUsers = (req, res) => {
 // @desc create a user
 // route POST /api/v1/users
 const createUser = (req, res) => {
+  const { fullName, phoneNumber, email, password } = req.body
   return res.json({ message: 'Hello from the server' })
 }
 
