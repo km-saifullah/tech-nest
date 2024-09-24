@@ -1,5 +1,7 @@
 import apiResponse from 'quick-response'
 import User from '../models/userModel.js'
+import sendVerificationEmail from '../utils/sendUserVerficationMail.js'
+import verifyEmailTemplate from '../templates/verifyEmailTemplate.js'
 
 // @desc get all users
 // route GET /api/v1/users
@@ -27,6 +29,7 @@ const createUser = async (req, res) => {
       email,
       password,
     })
+    await sendVerificationEmail(user.email, verifyEmailTemplate())
 
     return res.status(201).json(apiResponse(201, 'user created', { user }))
   } catch (err) {
