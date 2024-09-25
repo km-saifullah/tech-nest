@@ -4,6 +4,7 @@ import User from '../models/userModel.js'
 const emailVerification = async (req, res) => {
   try {
     const { link } = req.params
+    let confirmEmailMessage = ''
 
     const user = new User()
 
@@ -14,12 +15,15 @@ const emailVerification = async (req, res) => {
       if (userFound) {
         userFound.emailVerified = Date.now()
         await userFound.save()
-        return res.send('user verified')
+        confirmEmailMessage = 'Your email has been verified!'
+        return res.render('index', { confirmEmailMessage })
       } else {
-        return res.send('user verification failed')
+        confirmEmailMessage = 'User verification failed!'
+        return res.render('index', { confirmEmailMessage })
       }
     } else {
-      return res.send('invalid verification url')
+      confirmEmailMessage = 'Invalid verification url'
+      return res.render('index', { confirmEmailMessage })
     }
   } catch (error) {
     return res
