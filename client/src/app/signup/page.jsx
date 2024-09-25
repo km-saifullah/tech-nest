@@ -4,6 +4,8 @@ import { FcGoogle } from "react-icons/fc";
 import signup_image from "/public/signup_image.png";
 import Link from "next/link";
 import { useState } from "react";
+import axios from "axios";
+import EmailConfirmationModal from "@/components/Modal";
 
 const Signup = () => {
   const [registerData, setRegisterData] = useState({
@@ -13,27 +15,50 @@ const Signup = () => {
     password: "",
   });
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
   const handleRegisterData = (e) => {
     const registerInfo = { ...registerData };
     registerInfo[e.target.name] = e.target.value;
     setRegisterData(registerInfo);
   };
 
-  const handleCreateAccount = (e) => {
-    console.log("Clicked");
+  const handleCreateAccount = async (e) => {
     console.log(registerData);
-    setRegisterData({
-      name: "",
-      email: "",
-      phone: "",
-      password: "",
-    });
     e.preventDefault();
+    const createAccountUrl = "http://localhost:8000/api/v1/users";
+    try {
+      const response = await axios.post(createAccountUrl, registerData);
+      console.log(response);
+      setRegisterData({
+        fullName: "",
+        email: "",
+        phoneNumber: "",
+        password: "",
+      });
+      setIsModalOpen(true);
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data); // Server response with details
+      } else {
+        console.log(error.message); // General error
+      }
+    }
   };
   return (
     <div className="pt-14 pb-32">
       <div className="container">
         <div className="flex items-center justify-between">
+          {isModalOpen ? (
+            <EmailConfirmationModal
+              isOpen={isModalOpen}
+              onClose={handleModalClose}
+            />
+          ) : null}
           <div className="w-[750px]">
             <Image
               src={signup_image}
@@ -52,20 +77,30 @@ const Signup = () => {
               <div className="border-b">
                 <input
                   type="text"
-                  placeholder="Name"
+                  placeholder="Enter Fullname"
                   className="w-full py-2 border-none outline-none text-base text-text font-poppins font-normal leading-6"
-                  name="name"
-                  value={registerData.name}
+                  name="fullName"
+                  value={registerData.fullName}
                   onChange={handleRegisterData}
                 />
               </div>
               <div className="border-b">
                 <input
                   type="email"
-                  placeholder="Email or Phone Number"
+                  placeholder="john@example.com"
                   className="w-full py-2 border-none outline-none text-base text-text font-poppins font-normal leading-6"
                   name="email"
                   value={registerData.email}
+                  onChange={handleRegisterData}
+                />
+              </div>
+              <div className="border-b">
+                <input
+                  type="text"
+                  placeholder="Enter Phone Number"
+                  className="w-full py-2 border-none outline-none text-base text-text font-poppins font-normal leading-6"
+                  name="phoneNumber"
+                  value={registerData.phoneNumber}
                   onChange={handleRegisterData}
                 />
               </div>

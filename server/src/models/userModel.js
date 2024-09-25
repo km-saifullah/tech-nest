@@ -1,7 +1,12 @@
 import { mongoose, Schema } from 'mongoose'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import { accessTokenSecret, refreshTokenSecret } from '../config/index.js'
+import {
+  accessTokenExpires,
+  accessTokenSecret,
+  refreshTokenExpires,
+  refreshTokenSecret,
+} from '../config/index.js'
 
 const userSchema = new Schema(
   {
@@ -62,7 +67,7 @@ userSchema.methods.generateAccessToken = async function () {
       email: this.email,
     },
     accessTokenSecret,
-    { expiresIn: 60 * 60 }
+    { expiresIn: accessTokenExpires }
   )
 }
 
@@ -73,7 +78,7 @@ userSchema.methods.generateRefreshToken = async function () {
       email: this.email,
     },
     refreshTokenSecret,
-    { expiresIn: 60 * 60 }
+    { expiresIn: refreshTokenExpires }
   )
 }
 

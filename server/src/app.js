@@ -7,7 +7,7 @@ const app = express()
 // middlewares
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(cors())
+app.use(cors({ origin: '*' }))
 
 // all routes
 app.use('/api/v1/users/', userRouter)
