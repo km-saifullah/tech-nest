@@ -1,6 +1,7 @@
 import apiResponse from 'quick-response'
 import User from '../models/userModel.js'
 
+// desc: email verification
 const emailVerification = async (req, res) => {
   try {
     const { link } = req.params
@@ -13,7 +14,7 @@ const emailVerification = async (req, res) => {
     if (token) {
       const userFound = await User.findOne({ email: token.email })
       if (userFound) {
-        userFound.emailVerified = Date.now()
+        userFound.emailVerified = new Date().toDateString()
         await userFound.save()
         confirmEmailMessage = 'Your email has been verified!'
         return res.render('index', { confirmEmailMessage })
@@ -32,4 +33,15 @@ const emailVerification = async (req, res) => {
   }
 }
 
-export { emailVerification }
+// reset password
+const resetPassword = async (req, res) => {
+  try {
+    return res.status(201).json(apiResponse(201, 'ok'))
+  } catch (error) {
+    return res
+      .status(500)
+      .json(apiResponse(500, 'internal server error', { error: error.message }))
+  }
+}
+
+export { emailVerification, resetPassword }

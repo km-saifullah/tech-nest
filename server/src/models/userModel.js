@@ -39,6 +39,9 @@ const userSchema = new Schema(
       lowercase: true,
       default: 'user',
     },
+    passwordResetToken: {
+      type: String,
+    },
     refreshToken: {
       type: String,
     },
