@@ -33,6 +33,25 @@ const emailVerification = async (req, res) => {
   }
 }
 
+const forgotPassword = async (req, res, next) => {
+  try {
+    // get user based on posted email
+    const user = await User.findOne({ email: req.body.email })
+
+    if (!user) {
+      return res
+        .status(404)
+        .json(apiResponse(404, 'no user found with this email'))
+    }
+
+    // generate random reset token
+    const resetToken = user.createPasswordResetToken()
+    await user.save({ validateBeforeSave: false })
+
+    // send it to user's email
+  } catch (error) {}
+}
+
 // reset password
 const resetPassword = async (req, res) => {
   try {
@@ -44,4 +63,4 @@ const resetPassword = async (req, res) => {
   }
 }
 
-export { emailVerification, resetPassword }
+export { emailVerification, forgotPassword, resetPassword }
