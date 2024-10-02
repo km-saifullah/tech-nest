@@ -1,5 +1,7 @@
+import crypto from 'crypto'
 import apiResponse from 'quick-response'
 import User from '../models/userModel.js'
+import sendEmail from '../utils/sendEmail.js'
 
 // desc: email verification
 const emailVerification = async (req, res) => {
@@ -34,10 +36,9 @@ const emailVerification = async (req, res) => {
 }
 
 const forgotPassword = async (req, res, next) => {
+  // get user based on posted email
+  const user = await User.findOne({ email: req.body.email })
   try {
-    // get user based on posted email
-    const user = await User.findOne({ email: req.body.email })
-
     if (!user) {
       return res
         .status(404)
@@ -49,13 +50,66 @@ const forgotPassword = async (req, res, next) => {
     await user.save({ validateBeforeSave: false })
 
     // send it to user's email
-  } catch (error) {}
+    const resetURL = `${req.protocol}://${req.get(
+      'host'
+    )}/api/v1/users/reset-password/${resetToken}`
+
+    const message = `Forgot your password? click to the link to update your password:${resetURL}.\nIf you didn't forget your password, please ignore this email`
+
+    await sendEmail({
+      email: user.email,
+      html: message,
+    })
+
+    return res
+      .status(200)
+      .json(apiResponse(200, 'Reset password link send to the email address'))
+  } catch (error) {
+    user.passwordResetToken = undefined
+    user.passwordResetExpires = undefined
+    await user.save({ validateBeforeSave: false })
+    return res
+      .status(500)
+      .json(
+        apiResponse(
+          500,
+          'There was an  error sending the email. Try again later'
+        )
+      )
+  }
 }
 
 // reset password
 const resetPassword = async (req, res) => {
   try {
-    return res.status(201).json(apiResponse(201, 'ok'))
+    // get user based on token
+    const hashedToken = crypto
+      .createHash('sha256')
+      .update(req.params.token)
+      .digest('hex')
+
+    const user = await User.findOne({
+      passwordResetToken: hashedToken,
+      passwordResetExpires: { $gt: Date.now() },
+    })
+
+    //  If token has not expired and there is an user, set new password
+    if (!user) {
+      return res
+        .status(400)
+        .json(apiResponse(400, 'Token is invalid or has expired'))
+    }
+    user.password = req.body.password
+    user.passwordResetToken = undefined
+    user.passwordResetExpires = undefined
+
+    await user.save()
+
+    // login user and send JWT token
+    const token = await user.generateAccessToken()
+    return res
+      .status(201)
+      .json(apiResponse(201, 'password reset done', { token: token }))
   } catch (error) {
     return res
       .status(500)

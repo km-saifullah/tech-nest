@@ -13,6 +13,6 @@ router.route('/').get(getUsers).post(createUserVaidation, createUser)
 router.route('/:link').get(emailVerification)
 
 router.route('/forgot-password').post(forgotPassword)
-router.route('/reset-password').post(resetPassword)
+router.route('/reset-password/:token').patch(resetPassword)
 
 export default router
