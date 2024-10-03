@@ -3,6 +3,53 @@ import apiResponse from 'quick-response'
 import User from '../models/userModel.js'
 import sendEmail from '../utils/sendEmail.js'
 
+// generate JWT token
+const generateTokens = async (id) => {
+  try {
+    const user = await User.findById({ _id: id })
+    const accessToken = await user.generateAccessToken()
+    const refreshToken = await user.generateRefreshToken()
+    user.refreshToken = refreshToken
+    await user.save()
+    return { accessToken, refreshToken }
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+// @desc:  login user
+// @route: POST api/v1/login
+const loginUser = async (req, res) => {
+  const { email, password } = req.body
+  try {
+    // check user exist or not
+    const userFound = await User.findOne({ email })
+    if (!userFound) {
+      return res.status(404).json(apiResponse(404, 'user not found'))
+    }
+
+    // check password is right or wrong
+    const isPasswordCorrect = await userFound.correctPassword(password)
+    if (!isPasswordCorrect) {
+      return res.status(404).json(apiResponse(404, 'wrong email and password'))
+    }
+
+    // generate access and refresh token
+    const { accessToken, refreshToken } = await generateTokens(userFound._id)
+    return res
+      .status(200)
+      .json(
+        apiResponse(200, 'login succcessful', {
+          token: { refreshToken: refreshToken, accessToken: accessToken },
+        })
+      )
+  } catch (error) {
+    return res
+      .status(500)
+      .json(apiResponse(500, 'internal server error', { error: error.message }))
+  }
+}
+
 // desc: email verification
 const emailVerification = async (req, res) => {
   try {
@@ -35,6 +82,7 @@ const emailVerification = async (req, res) => {
   }
 }
 
+// forgot password
 const forgotPassword = async (req, res, next) => {
   // get user based on posted email
   const user = await User.findOne({ email: req.body.email })
@@ -117,4 +165,19 @@ const resetPassword = async (req, res) => {
   }
 }
 
-export { emailVerification, forgotPassword, resetPassword }
+// update password
+const updatePassword = async (req, res) => {
+  try {
+    // get user form the collection
+    // const user = await User.findById(req.user.id).select('+password')
+    const user = await User.findById(req.user.id)
+
+    // check if posted current password is correct
+
+    // if so, update password
+
+    // log user in, send JWT
+  } catch (error) {}
+}
+
+export { loginUser, emailVerification, forgotPassword, resetPassword }
