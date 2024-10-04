@@ -34,6 +34,12 @@ const userSchema = new Schema(
     emailVerified: {
       type: Date,
     },
+    profileImage: {
+      type: String,
+    },
+    publicId: {
+      type: String,
+    },
     role: {
       type: String,
       enum: ['user', 'seller', 'admin', 'editor'],
@@ -75,6 +81,7 @@ userSchema.methods.generateAccessToken = async function () {
     {
       id: this._id,
       email: this.email,
+      fullName: this.fullName,
     },
     accessTokenSecret,
     { expiresIn: accessTokenExpires }
@@ -86,6 +93,7 @@ userSchema.methods.generateRefreshToken = async function () {
     {
       id: this._id,
       email: this.email,
+      fullName: this.fullName,
     },
     refreshTokenSecret,
     { expiresIn: refreshTokenExpires }
