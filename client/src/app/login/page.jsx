@@ -1,38 +1,83 @@
 "use client";
 import { useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import config from "@/config/config";
 import Image from "next/image";
 import signup_image from "/public/signup_image.png";
+import { ThreeDots } from "react-loader-spinner";
 
 const Login = () => {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
   });
+  const router = useRouter();
 
+  // login input fields
   const handleLoginData = (e) => {
     const loginInfo = { ...loginData };
     loginInfo[e.target.name] = e.target.value;
     setLoginData(loginInfo);
   };
 
-  const handleLogin = (e) => {
-    console.log("clicked");
-    console.log(loginData);
-    setLoginData({
-      email: "",
-      password: "",
-    });
+  // handle login
+  const handleLogin = async (e) => {
     e.preventDefault();
+    if (loginData.email === "" && loginData.password === "") {
+      toast.warn("Please enter all required fields");
+    } else {
+      try {
+        setIsLoaded(true);
+        setIsLoggedIn(true);
+
+        const loginLink = `${config.baseUrl}/${config.loginUrl}`;
+        const loggedInUser = await axios.post(loginLink, loginData);
+        console.log(loggedInUser.data.data);
+
+        setLoginData({
+          email: "",
+          password: "",
+        });
+
+        router.push("/");
+      } catch (error) {
+        // if (error.response) {
+        //   console.log(error.response.data); // Server response with details
+        // } else {
+        //   console.log(error.message); // General error
+        // }
+        console.log(error.message);
+      }
+    }
+
+    setIsLoaded(false);
+    setIsLoggedIn(false);
   };
 
   const handleForgetPassword = (e) => {
-    console.log("Clicked");
     e.preventDefault();
   };
   return (
     <div className="pt-14 pb-32">
       <div className="container">
         <div className="flex items-center justify-between">
+          <ToastContainer
+            position="top-right"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss={false}
+            draggable
+            pauseOnHover={false}
+            theme="dark"
+          />
           <div className="w-[750px]">
             <Image
               src={signup_image}
@@ -69,12 +114,26 @@ const Login = () => {
                 />
               </div>
               <div className="flex items-center justify-between">
-                <button
-                  className="btn hover:text-primary hover:bg-white"
-                  onClick={handleLogin}
-                >
-                  Login
-                </button>
+                {isLoggedIn ? (
+                  <ThreeDots
+                    visible={true}
+                    height="80"
+                    width="80"
+                    color="#DB4444"
+                    radius="9"
+                    ariaLabel="three-dots-loading"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                  />
+                ) : (
+                  <button
+                    className="btn hover:text-primary hover:bg-white"
+                    onClick={handleLogin}
+                  >
+                    Login
+                  </button>
+                )}
+
                 <button
                   className="text-secondary"
                   onClick={handleForgetPassword}
