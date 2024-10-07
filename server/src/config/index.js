@@ -18,6 +18,8 @@ const refreshTokenExpires = process.env.REFRESH_TOKEN_EXPIRES
 
 const apiUrl = process.env.API_URL
 
+const cloudinaryApiKey = process.env.CLOUDINARY_API_KEY
+
 export {
   serverPort,
   dbUrl,
@@ -29,4 +31,5 @@ export {
   refreshTokenSecret,
   refreshTokenExpires,
   apiUrl,
+  cloudinaryApiKey,
 }

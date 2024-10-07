@@ -1,12 +1,13 @@
 import { unlinkSync } from 'fs'
 import { v2 as cloudinary } from 'cloudinary'
 import apiResponse from 'quick-response'
+import { cloudinaryApiKey } from '../config/index.js'
 
 // Configuration for cloudinary
 cloudinary.config({
   cloud_name: 'dmysnb0x5',
   api_key: '765869978321679',
-  api_secret: 'pzEJrCk1bR_V5gpKFWHsNAwl-i0',
+  api_secret: cloudinaryApiKey,
 })
 
 export const cloudinaryUpload = async (filePath, public_id, folder) => {
@@ -20,7 +21,6 @@ export const cloudinaryUpload = async (filePath, public_id, folder) => {
     })
 
     unlinkSync(filePath)
-    
   } catch (error) {
     unlinkSync(filePath)
     return res
