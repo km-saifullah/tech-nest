@@ -3,6 +3,7 @@ import { fileURLToPath } from 'url'
 import express from 'express'
 import cors from 'cors'
 import userRouter from './routes/userRoutes.js'
+import cookieParser from 'cookie-parser'
 
 // convert `import.meta.url` to __dirname
 const __filename = fileURLToPath(import.meta.url)
@@ -15,6 +16,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('./public'))
 app.use(cors({ origin: '*' }))
+app.use(cookieParser())
 
 // ejs setup
 app.set('view engine', 'ejs')

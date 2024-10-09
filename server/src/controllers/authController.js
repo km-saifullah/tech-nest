@@ -36,13 +36,16 @@ const loginUser = async (req, res) => {
 
     // generate access and refresh token
     const { accessToken, refreshToken } = await generateTokens(userFound._id)
-    return res
-      .status(200)
-      .json(
-        apiResponse(200, 'login succcessful', {
-          token: { refreshToken: refreshToken, accessToken: accessToken },
-        })
-      )
+    const loginToken = { accessToken, refreshToken }
+    res.cookie('token', loginToken, { httpOnly: true, secure: true })
+    return res.status(200).json(
+      apiResponse(200, 'login succcessful', {
+        token: {
+          refreshToken: refreshToken,
+          accessToken: accessToken,
+        },
+      })
+    )
   } catch (error) {
     return res
       .status(500)
