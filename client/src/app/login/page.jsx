@@ -1,7 +1,8 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import config from "@/config/config";
@@ -18,6 +19,15 @@ const Login = () => {
   });
   const router = useRouter();
 
+  const [cookieValue, setCookieValue] = useState("");
+
+  useEffect(() => {
+    // Get the value of the cookie named 'name'
+    const cookie = Cookies.get("token");
+    console.log("cookie:", cookie);
+    setCookieValue(cookie || "No cookie found");
+  }, []);
+
   // login input fields
   const handleLoginData = (e) => {
     const loginInfo = { ...loginData };
@@ -29,20 +39,28 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     if (loginData.email === "" && loginData.password === "") {
-      toast.warn("Please enter all required fields");
+      toast.warn("Invalid credential");
     } else {
       try {
         setIsLoaded(true);
         setIsLoggedIn(true);
 
         const loginLink = `${config.baseUrl}/${config.loginUrl}`;
-        const loggedInUser = await axios.post(loginLink, loginData);
-        console.log(loggedInUser.data.data);
+        console.log(loginLink);
+        const loggedInUser = await axios.post(loginLink, loginData, {
+          withCredentials: true, // Enable credentials
+        });
+        console.log(loggedInUser);
+        // localStorage.setItem(
+        //   "dataToken",
+        //   JSON.stringify(loggedInUser.data.data.token)
+        // );
 
         setLoginData({
           email: "",
           password: "",
         });
+        console.log(cookieValue);
 
         router.push("/");
       } catch (error) {
@@ -63,7 +81,7 @@ const Login = () => {
     e.preventDefault();
   };
   return (
-    <div className="pt-14 pb-32">
+    <div suppressHydrationWarning={true} className="pt-14 pb-32">
       <div className="container">
         <div className="flex items-center justify-between">
           <ToastContainer
