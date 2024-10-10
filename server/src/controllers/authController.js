@@ -34,10 +34,23 @@ const loginUser = async (req, res) => {
       return res.status(404).json(apiResponse(404, 'wrong email and password'))
     }
 
+    // check user is verified or not
+    if (!userFound.emailVerified) {
+      return res
+        .status(400)
+        .json(
+          apiResponse(400, 'email not verified, please check your email inbox')
+        )
+    }
+
     // generate access and refresh token
     const { accessToken, refreshToken } = await generateTokens(userFound._id)
     const loginToken = { accessToken, refreshToken }
-    res.cookie('token', loginToken.refreshToken, {
+    res.cookie('refreshToken', loginToken.refreshToken, {
+      httpOnly: true,
+      secure: true,
+    })
+    res.cookie('accessToken', loginToken.accessToken, {
       httpOnly: true,
       secure: true,
     })
@@ -49,6 +62,21 @@ const loginUser = async (req, res) => {
         },
       })
     )
+  } catch (error) {
+    return res
+      .status(500)
+      .json(apiResponse(500, 'internal server error', { error: error.message }))
+  }
+}
+
+// @desc:  logout user
+// @route: POST api/v1/logout
+const logoutUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id)
+    user.refreshToken = undefined
+    await user.save()
+    return res.status(200).json(apiResponse(200, 'user logout successful'))
   } catch (error) {
     return res
       .status(500)
@@ -186,4 +214,10 @@ const updatePassword = async (req, res) => {
   } catch (error) {}
 }
 
-export { loginUser, emailVerification, forgotPassword, resetPassword }
+export {
+  loginUser,
+  logoutUser,
+  emailVerification,
+  forgotPassword,
+  resetPassword,
+}
