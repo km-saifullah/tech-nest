@@ -3,6 +3,7 @@ import { fileURLToPath } from 'url'
 import express from 'express'
 import cors from 'cors'
 import userRouter from './routes/userRoutes.js'
+import categoryRouter from './routes/categoryRoutes.js'
 import cookieParser from 'cookie-parser'
 
 // convert `import.meta.url` to __dirname
@@ -27,7 +28,10 @@ app.use(cookieParser())
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
 
-// all routes
+// user routes
 app.use('/api/v1/users/', userRouter)
+
+// category routes
+app.use('/api/v1/categories/', categoryRouter)
 
 export default app

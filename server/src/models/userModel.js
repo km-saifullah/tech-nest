@@ -82,6 +82,7 @@ userSchema.methods.generateAccessToken = async function () {
       id: this._id,
       email: this.email,
       fullName: this.fullName,
+      role: this.role,
     },
     accessTokenSecret,
     { expiresIn: accessTokenExpires }
