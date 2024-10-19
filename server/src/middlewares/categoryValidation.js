@@ -1,7 +1,7 @@
 import apiResponse from 'quick-response'
 
 // create category validation
-const addCategooryValidation = (req, res, next) => {
+const addCategoryValidation = (req, res, next) => {
   try {
     const { categoryName } = req.body
     if (!categoryName) {
@@ -15,4 +15,4 @@ const addCategooryValidation = (req, res, next) => {
   next()
 }
 
-export { addCategooryValidation }
+export { addCategoryValidation }

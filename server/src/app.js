@@ -4,6 +4,7 @@ import express from 'express'
 import cors from 'cors'
 import userRouter from './routes/userRoutes.js'
 import categoryRouter from './routes/categoryRoutes.js'
+import subCategoryRouter from './routes/subCategoryRoutes.js'
 import cookieParser from 'cookie-parser'
 
 // convert `import.meta.url` to __dirname
@@ -33,5 +34,8 @@ app.use('/api/v1/users/', userRouter)
 
 // category routes
 app.use('/api/v1/categories/', categoryRouter)
+
+// sub-category routes
+app.use('/api/v1/sub-categories/', subCategoryRouter)
 
 export default app
