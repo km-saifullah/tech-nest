@@ -37,4 +37,15 @@ const protectAuth = async (req, res, next) => {
   }
 }
 
+export const adminAuth = async (req, res, next) => {
+  try {
+    // const {role} = await User.find 
+  } catch (error) {
+    return res
+      .status(500)
+      .json(apiResponse(500, 'internal server error', { error: error.message }))
+  }
+  next()
+}
+
 export default protectAuth
