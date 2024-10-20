@@ -8,7 +8,6 @@ const addProduct = async (req, res) => {
   try {
     const { title, slug, category, subCategory } = req.body
     const { thumbnail, gallery } = req.files
-    // console.log(req.files)
     let thumbnailImgPath = thumbnail[0].path
 
     let newSlug
@@ -27,7 +26,6 @@ const addProduct = async (req, res) => {
       newSlug,
       'product'
     )
-    // console.log(productThumbnailImg)
 
     const product = new Product()
 
@@ -35,7 +33,20 @@ const addProduct = async (req, res) => {
       const { gallery } = req.files
       const galleryImages = await Promise.all(gallery)
       const galleryImagePath = galleryImages.map((path) => path.path)
-      console.log(galleryImagePath)
+
+      for (let imagePath of galleryImagePath) {
+        newSlug = imagePath.replace('public/temp/', '').replace('.png', '')
+        const uploadedGalleryImage = await cloudinaryUpload(
+          imagePath,
+          newSlug,
+          'product/gallery'
+        )
+
+        product.gallery.push({
+          galleryImage: uploadedGalleryImage.optimizeUrl,
+          publicId: newSlug,
+        })
+      }
     }
 
     product.title = title
@@ -46,9 +57,9 @@ const addProduct = async (req, res) => {
     product.thumbnail.publicId = productThumbnailImg.uploadResult.public_id
     await product.save()
 
-    // return res
-    //   .status(201)
-    //   .json(apiResponse(201, 'product created', { data: product }))
+    return res
+      .status(201)
+      .json(apiResponse(201, 'product created', { data: product }))
   } catch (error) {
     return res
       .status(500)
