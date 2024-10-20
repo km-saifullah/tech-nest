@@ -9,23 +9,36 @@ const productSchema = new Schema(
     },
     slug: {
       type: String,
-      required: true,
       unique: true,
     },
     category: {
       type: mongoose.Types.ObjectId,
       ref: 'Category',
+      required: true,
     },
     subCategory: {
       type: mongoose.Types.ObjectId,
       ref: 'SubCategory',
+      required: true,
     },
     thumbnail: {
-      type: String,
+      thumnailImage: {
+        type: String,
+        required: true,
+      },
+      publicId: {
+        type: String,
+      },
     },
     gallery: [
       {
-        type: String,
+        galleryImage: {
+          type: String,
+          required: true,
+        },
+        publicId: {
+          type: String,
+        },
       },
     ],
     description: {
