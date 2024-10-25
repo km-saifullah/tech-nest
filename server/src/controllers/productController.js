@@ -30,21 +30,25 @@ const addProduct = async (req, res) => {
     const product = new Product()
 
     if (req.files?.gallery) {
+      let gallerPublicId = ''
       const { gallery } = req.files
-      const galleryImages = await Promise.all(gallery)
-      const galleryImagePath = galleryImages.map((path) => path.path)
 
-      for (let imagePath of galleryImagePath) {
-        newSlug = imagePath.replace('public/temp/', '').replace('.png', '')
+      const galleryImages = gallery.map((path) => path.path)
+
+      for (let imagePath of galleryImages) {
+        gallerPublicId = imagePath
+          .replace('public/temp/', '')
+          .replace(/\.(png|jpg|jpeg|gif|bmp|tiff|webp)$/i, '')
+
         const uploadedGalleryImage = await cloudinaryUpload(
           imagePath,
-          newSlug,
+          gallerPublicId,
           'product/gallery'
         )
 
         product.gallery.push({
           galleryImage: uploadedGalleryImage.optimizeUrl,
-          publicId: newSlug,
+          publicId: gallerPublicId,
         })
       }
     }
