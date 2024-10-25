@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import protectAuth, { adminAuth } from '../middlewares/protectAuth.js'
-import { addProduct } from '../controllers/productController.js'
+import { addProduct, getAllProducts } from '../controllers/productController.js'
 import createProductValidation from '../middlewares/createProductValidation.js'
 import { upload } from '../middlewares/uploadImage.middleware.js'
 
@@ -15,5 +15,7 @@ router.route('/add-product').post(
   ]),
   addProduct
 )
+
+router.route('/').get(getAllProducts)
 
 export default router

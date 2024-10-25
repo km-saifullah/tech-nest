@@ -10,17 +10,19 @@ const addProduct = async (req, res) => {
     const { thumbnail, gallery } = req.files
     let thumbnailImgPath = thumbnail[0].path
 
+    // generate new slug
     let newSlug
     if (!slug) {
       newSlug = title.replaceAll(' ', '-').toLowerCase() + '-' + Date.now()
     } else {
-      const isSlugUnique = await Product.find({ slug })
+      const isSlugUnique = await Product.findOne({ slug })
       if (isSlugUnique) {
         return res.status(400).json(apiResponse(400, 'slug must be unique'))
       }
       newSlug = slug.replaceAll(' ', '-').toLowerCase() + '-' + Date.now()
     }
 
+    // upload thumbnail image
     const productThumbnailImg = await cloudinaryUpload(
       thumbnailImgPath,
       newSlug,
@@ -29,6 +31,7 @@ const addProduct = async (req, res) => {
 
     const product = new Product()
 
+    // upload gallery images
     if (req.files?.gallery) {
       let gallerPublicId = ''
       const { gallery } = req.files
@@ -53,6 +56,7 @@ const addProduct = async (req, res) => {
       }
     }
 
+    // save product ot db
     product.title = title
     product.category = category
     product.subCategory = subCategory
@@ -71,4 +75,22 @@ const addProduct = async (req, res) => {
   }
 }
 
-export { addProduct }
+// @desc:  get all products
+// @route: GET /api/v1/products
+const getAllProducts = async (req, res) => {
+  try {
+    const products = await Product.find({})
+    return res.status(200).json(
+      apiResponse(200, 'all products data fetched', {
+        products,
+        results: products.length,
+      })
+    )
+  } catch (error) {
+    return res
+      .status(400)
+      .json(apiResponse(400, 'server error', { error: error.message }))
+  }
+}
+
+export { addProduct, getAllProducts }
