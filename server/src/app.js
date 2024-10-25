@@ -7,6 +7,7 @@ import categoryRouter from './routes/categoryRoutes.js'
 import subCategoryRouter from './routes/subCategoryRoutes.js'
 import productRouter from './routes/productRoutes.js'
 import productVariationRouter from './routes/productVariationRoutes.js'
+import inventoryRouter from './routes/inventoryRoutes.js'
 import cookieParser from 'cookie-parser'
 
 // convert `import.meta.url` to __dirname
@@ -45,5 +46,8 @@ app.use('/api/v1/products/', productRouter)
 
 // product variation routes
 app.use('/api/v1/product-variations/', productVariationRouter)
+
+// inventory routes
+app.use('/api/v1/inventories/', inventoryRouter)
 
 export default app
