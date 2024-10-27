@@ -157,4 +157,34 @@ const deleteInventoryById = async (req, res) => {
   }
 }
 
-export { createInventory, updateInventory, getInventories, deleteInventoryById }
+// @desc  get inventory by id
+// @route GET /api/v1/inventories/:id
+const getInventory = async (req, res) => {
+  try {
+    const { id } = req.params
+    const inventory = await Inventory.findById({ _id: id })
+      .populate('productVariation')
+      .populate('product')
+    if (!inventory) {
+      return res.status(404).json(apiResponse(404, 'inventory does not found'))
+    }
+
+    return res.status(200).json(
+      apiResponse(200, 'inventory fetched successfully', {
+        inventory,
+      })
+    )
+  } catch (error) {
+    return res
+      .status(400)
+      .json(apiResponse(400, 'server error', { error: error.message }))
+  }
+}
+
+export {
+  createInventory,
+  updateInventory,
+  getInventories,
+  deleteInventoryById,
+  getInventory,
+}
