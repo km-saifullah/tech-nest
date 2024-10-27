@@ -111,4 +111,27 @@ const updateInventory = async (req, res) => {
   }
 }
 
-export { createInventory, updateInventory }
+// @desc  get all inventories
+// @route GET /api/v1/inventories
+const getInventories = async (req, res) => {
+  try {
+    const inventories = await Inventory.find({})
+      .populate('productVariation')
+      .populate('product')
+    return res.status(200).json(
+      apiResponse(200, 'all inventories fetched successfully', {
+        inventories,
+        results: inventories.length,
+      })
+    )
+  } catch (error) {
+    return res
+      .status(400)
+      .json(apiResponse(400, 'server error', { error: error.message }))
+  }
+}
+
+// @desc  get all inventories
+// @route GET /api/v1/inventories
+
+export { createInventory, updateInventory, getInventories }
