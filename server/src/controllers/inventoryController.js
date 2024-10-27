@@ -131,7 +131,30 @@ const getInventories = async (req, res) => {
   }
 }
 
-// @desc  get all inventories
-// @route GET /api/v1/inventories
+// @desc  delete inventory by id
+// @route POST /api/v1/inventories/:id
+const deleteInventoryById = async (req, res) => {
+  try {
+    const { id } = req.params
+    const inventory = await Inventory.findByIdAndDelete({ _id: id })
+    if (!inventory) {
+      return res.status(404).json(apiResponse(404, 'inventory does not found'))
+    }
 
-export { createInventory, updateInventory, getInventories }
+    // delete this inventory form product model
+    await Product.findByIdAndUpdate(
+      { _id: inventory.product },
+      { $pull: { inventory: inventory._id } }
+    )
+
+    return res
+      .status(200)
+      .json(apiResponse(200, 'inventory deleted successfully'))
+  } catch (error) {
+    return res
+      .status(400)
+      .json(apiResponse(400, 'server error', { error: error.message }))
+  }
+}
+
+export { createInventory, updateInventory, getInventories, deleteInventoryById }
