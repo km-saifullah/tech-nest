@@ -2,8 +2,10 @@ import { Router } from 'express'
 import protectAuth, { adminAuth } from '../middlewares/protectAuth.js'
 import {
   addProduct,
+  deleteProduct,
   getAllProducts,
   getProductById,
+  updateProduct,
 } from '../controllers/productController.js'
 import createProductValidation from '../middlewares/createProductValidation.js'
 import { upload } from '../middlewares/uploadImage.middleware.js'
@@ -21,6 +23,10 @@ router.route('/add-product').post(
 )
 
 router.route('/').get(getAllProducts)
-router.route('/:id').get(getProductById)
+router
+  .route('/:id')
+  .get(getProductById)
+  .post(updateProduct)
+  .delete(deleteProduct)
 
 export default router

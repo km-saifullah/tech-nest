@@ -1,6 +1,7 @@
 import apiResponse from 'quick-response'
 import Product from '../models/productModel.js'
 import { cloudinaryUpload } from '../services/cloudinary.js'
+import Inventory from '../models/inventoryModel.js'
 
 // @desc:  add product
 // @route: POST /api/v1/products/add-product
@@ -56,7 +57,7 @@ const addProduct = async (req, res) => {
       }
     }
 
-    // save product ot db
+    // save product to db
     product.title = title
     product.category = category
     product.subCategory = subCategory
@@ -96,8 +97,8 @@ const getAllProducts = async (req, res) => {
   }
 }
 
-// @desc:  description about controller
-// @route: METHOD /api/v1/
+// @desc:  get a product by id
+// @route: GET /api/v1/products/:id
 const getProductById = async (req, res) => {
   try {
     const { id } = req.params
@@ -125,4 +126,79 @@ const getProductById = async (req, res) => {
   }
 }
 
-export { addProduct, getAllProducts, getProductById }
+// @desc:  update product
+// @route: POST /api/v1/products/:id
+const updateProduct = async (req, res) => {
+  try {
+    const { id } = req.params
+    const { title, slug, category, subCategory } = req.body
+    const { thumbnail, gallery } = req.files
+  } catch (error) {
+    return res
+      .status(400)
+      .json(apiResponse(400, 'server error', { error: error.message }))
+  }
+}
+
+// @desc:  delete a product by id
+// @route: DELETE /api/v1/
+const deleteProduct = async (req, res) => {
+  try {
+    // const { id } = req.params
+    // const product = await Product.findById({ _id: id })
+    // // console.log(product.inventory, 'typeof:', typeof product.inventory)
+    // const gudam = product.inventory
+    // console.log(gudam)
+
+    // const foundId = gudam.find((inId) => inId.toString() === id.product)
+    // console.log(foundId)
+
+    // // if product does not found
+    // if (!product) {
+    //   return res.status(404).json(apiResponse(404, 'product does not found'))
+    // }
+
+    // delete this product from inventory
+    // await Inventory.findByIdAndUpdate(
+    //   { product: id },
+    //   { $pull: { product: { _id: product._id } } }
+    // )
+    // const deleteInventoryProduct = await Inventory.findByIdAndDelete({
+    //   _id: product.inventory[0].toString(),
+    // })
+    // console.log('first')
+    // const deleteInventoryProduct = await Inventory.findById({
+    //   _id: product.inventory[0].toString(),
+    // })
+
+    const { id } = req.params
+
+    // Find the product by ID and ensure it exists
+    const product = await Product.findById(id)
+    if (!product) {
+      return res.status(404).json(apiResponse(404, 'Product not found'))
+    }
+
+    // Find and delete the inventory associated with this product
+    const inventoryEntry = await Inventory.findOneAndDelete({ product: id })
+
+    // Delete the product
+    await Product.deleteOne({ _id: id })
+
+    return res
+      .status(200)
+      .json(apiResponse(200, 'product deleted successfully'))
+  } catch (error) {
+    return res
+      .status(400)
+      .json(apiResponse(400, 'server error', { error: error.message }))
+  }
+}
+
+export {
+  addProduct,
+  getAllProducts,
+  getProductById,
+  updateProduct,
+  deleteProduct,
+}
