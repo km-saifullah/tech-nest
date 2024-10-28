@@ -80,6 +80,9 @@ const addProduct = async (req, res) => {
 const getAllProducts = async (req, res) => {
   try {
     const products = await Product.find({})
+      .populate('category')
+      .populate('subCategory')
+      .populate('inventory')
     return res.status(200).json(
       apiResponse(200, 'all products data fetched', {
         products,
@@ -93,4 +96,33 @@ const getAllProducts = async (req, res) => {
   }
 }
 
-export { addProduct, getAllProducts }
+// @desc:  description about controller
+// @route: METHOD /api/v1/
+const getProductById = async (req, res) => {
+  try {
+    const { id } = req.params
+    const product = await Product.findOne({ _id: id })
+      .populate('category')
+      .populate('subCategory')
+      .populate('inventory')
+
+    // if product does not found
+    if (!product) {
+      return res
+        .status(404)
+        .json(apiResponse(404, 'product not found with this id'))
+    }
+
+    return res.status(200).json(
+      apiResponse(200, 'product fetched successfully', {
+        product,
+      })
+    )
+  } catch (error) {
+    return res
+      .status(400)
+      .json(apiResponse(400, 'server error', { error: error.message }))
+  }
+}
+
+export { addProduct, getAllProducts, getProductById }
