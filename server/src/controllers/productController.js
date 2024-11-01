@@ -141,49 +141,22 @@ const updateProduct = async (req, res) => {
 }
 
 // @desc:  delete a product by id
-// @route: DELETE /api/v1/
+// @route: DELETE /api/v1/products/:id
 const deleteProduct = async (req, res) => {
   try {
-    // const { id } = req.params
-    // const product = await Product.findById({ _id: id })
-    // // console.log(product.inventory, 'typeof:', typeof product.inventory)
-    // const gudam = product.inventory
-    // console.log(gudam)
-
-    // const foundId = gudam.find((inId) => inId.toString() === id.product)
-    // console.log(foundId)
-
-    // // if product does not found
-    // if (!product) {
-    //   return res.status(404).json(apiResponse(404, 'product does not found'))
-    // }
-
-    // delete this product from inventory
-    // await Inventory.findByIdAndUpdate(
-    //   { product: id },
-    //   { $pull: { product: { _id: product._id } } }
-    // )
-    // const deleteInventoryProduct = await Inventory.findByIdAndDelete({
-    //   _id: product.inventory[0].toString(),
-    // })
-    // console.log('first')
-    // const deleteInventoryProduct = await Inventory.findById({
-    //   _id: product.inventory[0].toString(),
-    // })
-
     const { id } = req.params
 
-    // Find the product by ID and ensure it exists
+    // find the product by ID and ensure it exists
     const product = await Product.findById(id)
     if (!product) {
       return res.status(404).json(apiResponse(404, 'Product not found'))
     }
 
-    // Find and delete the inventory associated with this product
-    const inventoryEntry = await Inventory.findOneAndDelete({ product: id })
+    // delete the inventory associated with this product
+    await Inventory.deleteMany({ product: id })
 
-    // Delete the product
-    await Product.deleteOne({ _id: id })
+    // delete the product
+    await Product.findByIdAndDelete({ _id: id })
 
     return res
       .status(200)
