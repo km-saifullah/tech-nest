@@ -28,6 +28,11 @@ app.use(
 )
 app.use(cookieParser())
 
+// home page:
+app.get('/', (req, res) => {
+  res.send('<h1>Tech Nest</h1>')
+})
+
 // ejs setup
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
