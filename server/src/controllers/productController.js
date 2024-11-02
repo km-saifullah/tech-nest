@@ -80,14 +80,26 @@ const addProduct = async (req, res) => {
 // @route: GET /api/v1/products
 const getAllProducts = async (req, res) => {
   try {
+    // pagination and filter
+    const { page, limit } = req.query
+    const currentPage = (Number(page) < 1 ? 1 : Number(page)) || 1
+    const baseLimit = Number(limit) || 2
+    const skip = Number((currentPage - 1) * baseLimit)
+
+    const totalProducts = await Product.countDocuments()
+    const totalPages = Math.ceil(totalProducts / baseLimit)
+
     const products = await Product.find({})
       .populate('category')
       .populate('subCategory')
       .populate('inventory')
+      .skip(skip)
+      .limit(baseLimit)
     return res.status(200).json(
       apiResponse(200, 'all products data fetched', {
         products,
-        results: products.length,
+        totalProducts,
+        totalPages,
       })
     )
   } catch (error) {
