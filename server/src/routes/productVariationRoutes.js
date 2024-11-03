@@ -3,6 +3,6 @@ import { createProductVariation } from '../controllers/productVariationControlle
 
 const router = Router()
 
-router.route('/create').post(createProductVariation)
+router.route('/').post(createProductVariation)
 
 export default router

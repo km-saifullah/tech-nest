@@ -4,7 +4,7 @@ import { cloudinaryUpload } from '../services/cloudinary.js'
 import Inventory from '../models/inventoryModel.js'
 
 // @desc:  add product
-// @route: POST /api/v1/products/add-product
+// @route: POST /api/v1/products
 const addProduct = async (req, res) => {
   try {
     const { title, slug, category, subCategory } = req.body
@@ -78,26 +78,65 @@ const addProduct = async (req, res) => {
 
 // @desc:  get all products
 // @route: GET /api/v1/products
+// const getAllProducts = async (req, res) => {
+//   try {
+//     // pagination and filter
+//     const { page, limit } = req.query
+//     const currentPage = (Number(page) < 1 ? 1 : Number(page)) || 1
+//     const baseLimit = Number(limit) || 0
+//     const skip = Number((currentPage - 1) * baseLimit)
+
+//     const totalProducts = await Product.countDocuments()
+//     const totalPages = Math.ceil(totalProducts / baseLimit)
+
+//     const products = await Product.find({})
+//       .populate('category')
+//       .populate('subCategory')
+//       .populate('inventory')
+//       .skip(skip)
+//       .limit(baseLimit)
+//     return res.status(200).json(
+//       apiResponse(200, 'all products data fetched', {
+//         products,
+//         totalProducts,
+//         totalPages,
+//       })
+//     )
+//   } catch (error) {
+//     return res
+//       .status(400)
+//       .json(apiResponse(400, 'server error', { error: error.message }))
+//   }
+// }
+
 const getAllProducts = async (req, res) => {
   try {
     // pagination and filter
     const { page, limit } = req.query
-    const currentPage = (Number(page) < 1 ? 1 : Number(page)) || 1
-    const baseLimit = Number(limit) || 2
-    const skip = Number((currentPage - 1) * baseLimit)
+
+    const shouldPaginate = page && limit
+    const currentPage = shouldPaginate ? Math.max(Number(page), 1) : 1
+    const baseLimit = shouldPaginate ? Number(limit) : 0
+    const skip = shouldPaginate ? (currentPage - 1) * baseLimit : 0
 
     const totalProducts = await Product.countDocuments()
-    const totalPages = Math.ceil(totalProducts / baseLimit)
+    const totalPages = shouldPaginate ? Math.ceil(totalProducts / baseLimit) : 1
 
-    const products = await Product.find({})
+    const query = Product.find({})
       .populate('category')
       .populate('subCategory')
       .populate('inventory')
-      .skip(skip)
-      .limit(baseLimit)
+
+    if (shouldPaginate) {
+      query.skip(skip).limit(baseLimit)
+    }
+
+    const products = await query
     return res.status(200).json(
       apiResponse(200, 'all products data fetched', {
         products,
+        skip,
+        baseLimit,
         totalProducts,
         totalPages,
       })

@@ -12,7 +12,7 @@ import { upload } from '../middlewares/uploadImage.middleware.js'
 
 const router = Router()
 
-router.route('/add-product').post(
+router.route('/').post(
   protectAuth,
   createProductValidation,
   upload.fields([
