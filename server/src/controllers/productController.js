@@ -2,6 +2,8 @@ import apiResponse from 'quick-response'
 import Product from '../models/productModel.js'
 import { cloudinaryUpload } from '../services/cloudinary.js'
 import Inventory from '../models/inventoryModel.js'
+import Category from '../models/categoryModel.js'
+import SubCategory from '../models/subCategoryModel.js'
 
 // @desc:  add product
 // @route: POST /api/v1/products
@@ -78,60 +80,72 @@ const addProduct = async (req, res) => {
 
 // @desc:  get all products
 // @route: GET /api/v1/products
-// const getAllProducts = async (req, res) => {
-//   try {
-//     // pagination and filter
-//     const { page, limit } = req.query
-//     const currentPage = (Number(page) < 1 ? 1 : Number(page)) || 1
-//     const baseLimit = Number(limit) || 0
-//     const skip = Number((currentPage - 1) * baseLimit)
-
-//     const totalProducts = await Product.countDocuments()
-//     const totalPages = Math.ceil(totalProducts / baseLimit)
-
-//     const products = await Product.find({})
-//       .populate('category')
-//       .populate('subCategory')
-//       .populate('inventory')
-//       .skip(skip)
-//       .limit(baseLimit)
-//     return res.status(200).json(
-//       apiResponse(200, 'all products data fetched', {
-//         products,
-//         totalProducts,
-//         totalPages,
-//       })
-//     )
-//   } catch (error) {
-//     return res
-//       .status(400)
-//       .json(apiResponse(400, 'server error', { error: error.message }))
-//   }
-// }
-
 const getAllProducts = async (req, res) => {
   try {
-    // pagination and filter
-    const { page, limit } = req.query
+    // pagination
+    const { page, limit, category, subCategory } = req.query
 
     const shouldPaginate = page && limit
     const currentPage = shouldPaginate ? Math.max(Number(page), 1) : 1
     const baseLimit = shouldPaginate ? Number(limit) : 0
     const skip = shouldPaginate ? (currentPage - 1) * baseLimit : 0
 
-    const totalProducts = await Product.countDocuments()
+    const filter = {}
+
+    // filter by categoryName
+    let categoryId
+    if (category) {
+      const foundCategory = await Category.findOne({
+        categoryName: { $regex: category, $options: 'i' },
+      })
+      if (foundCategory) {
+        categoryId = foundCategory._id
+      } else {
+        return res
+          .status(200)
+          .json(
+            apiResponse(200, 'no products found for the specified category')
+          )
+      }
+    }
+
+    // filter by subCategory name
+    let subCategoryId
+    if (subCategory) {
+      const foundSubCategory = await SubCategory.findOne({
+        subCategoryName: { $regex: subCategory, $options: 'i' },
+      })
+      if (foundSubCategory) {
+        subCategoryId = foundSubCategory._id
+      } else {
+        return res
+          .status(200)
+          .json(
+            apiResponse(200, 'no products found for the specified subCategory')
+          )
+      }
+    }
+
+    if (categoryId) {
+      filter.category = categoryId
+    }
+    if (subCategoryId) {
+      filter.subCategory = subCategoryId
+    }
+
+    const totalProducts = await Product.countDocuments(filter)
     const totalPages = shouldPaginate ? Math.ceil(totalProducts / baseLimit) : 1
 
-    const query = Product.find({})
-      .populate('category')
+    let products = await Product.find(filter)
+      .populate({ path: 'category', select: 'categoryName' })
       .populate('subCategory')
       .populate('inventory')
 
-    if (shouldPaginate) {
-      query.skip(skip).limit(baseLimit)
-    }
+    // if (shouldPaginate) {
+    //   query = query.skip(skip).limit(baseLimit)
+    // }
 
-    const products = await query
+    // const products = await query
     return res.status(200).json(
       apiResponse(200, 'all products data fetched', {
         products,
@@ -139,6 +153,7 @@ const getAllProducts = async (req, res) => {
         baseLimit,
         totalProducts,
         totalPages,
+        total: products.length,
       })
     )
   } catch (error) {
