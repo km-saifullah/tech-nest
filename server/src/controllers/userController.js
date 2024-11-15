@@ -19,7 +19,9 @@ const getUsers = async (req, res) => {
 // route POST /api/v1/users
 const createUser = async (req, res) => {
   try {
-    const { fullName, phoneNumber, email, password } = req.body
+    const { fullName, phoneNumber, email, password, role } = req.body
+
+    let userRole = role ? role : 'user'
 
     // check user already registered or not
     const isUserFound = await User.findOne({ email })
@@ -34,6 +36,7 @@ const createUser = async (req, res) => {
       phoneNumber,
       email,
       password,
+      role: userRole,
     })
 
     let link = await user.generateAccessToken()
