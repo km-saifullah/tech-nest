@@ -24,11 +24,11 @@ const createUser = async (req, res) => {
     let userRole = role ? role : 'user'
 
     // check user already registered or not
-    const isUserFound = await User.findOne({ email })
+    const isUserFound = await User.findOne({ email: email })
     if (isUserFound) {
       return res
         .status(400)
-        .json(apiResponse(400, 'email already exist', { isUserFound }))
+        .json(apiResponse(400, 'email already exist'))
     }
 
     const user = await User.create({
