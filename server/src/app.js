@@ -16,13 +16,16 @@ const __dirname = path.dirname(__filename)
 
 const app = express()
 
+// allowed origins
+const allowedOrigins = ['http://localhost:3000', 'http://localhost:5173']
+
 // middlewares
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('./public'))
 app.use(
   cors({
-    origin: 'http://localhost:3000',
+    origin: allowedOrigins,
     credentials: true,
   })
 )
