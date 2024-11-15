@@ -6,8 +6,13 @@ import { cloudinaryUpload } from '../services/cloudinary.js'
 
 // @desc get all users
 // route GET /api/v1/users
-const getUsers = (req, res) => {
-  return res.json({ message: 'Hello from the server' })
+const getUsers = async (req, res) => {
+  try {
+    const users = await User.find({})
+    return res.status(200).json(apiResponse(200, 'fetched all suers', users))
+  } catch (error) {
+    return res.json(apiResponse(400, 'get user unsuccessful'))
+  }
 }
 
 // @desc create a user
