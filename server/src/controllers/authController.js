@@ -56,6 +56,7 @@ const loginUser = async (req, res) => {
     })
     return res.status(200).json(
       apiResponse(200, 'login succcessful', {
+        user: userFound,
         token: {
           refreshToken: refreshToken,
           accessToken: accessToken,
