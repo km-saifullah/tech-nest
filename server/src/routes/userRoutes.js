@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import {
   createUser,
+  getUser,
   getUsers,
   updateUser,
 } from '../controllers/userController.js'
@@ -19,6 +20,7 @@ const router = Router()
 
 // user routes
 router.route('/').get(getUsers).post(createUserVaidation, createUser)
+router.route('/:id').get(getUser)
 router.route('/:link').get(emailVerification)
 router.route('/login').post(loginUser)
 router
