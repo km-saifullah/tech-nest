@@ -26,9 +26,7 @@ const createUser = async (req, res) => {
     // check user already registered or not
     const isUserFound = await User.findOne({ email: email })
     if (isUserFound) {
-      return res
-        .status(400)
-        .json(apiResponse(400, 'email already exist'))
+      return res.status(400).json(apiResponse(400, 'email already exist'))
     }
 
     const user = await User.create({
@@ -83,4 +81,25 @@ const updateUser = async (req, res) => {
   }
 }
 
-export { createUser, getUsers, updateUser }
+// @desc:  get a user by Id
+// @route: GET /api/v1/users/:id
+const getUser = async (req, res) => {
+  try {
+    const { id } = req.params
+
+    const user = await User.findById({ _id: id })
+    if (!user) {
+      return res.status(404).json(apiResponse(404, 'user not found by this id'))
+    }
+
+    return res
+      .status(200)
+      .json(apiResponse(200, 'fetch user successfully', user))
+  } catch (error) {
+    return res
+      .status(400)
+      .json(apiResponse(400, 'server error', { error: error.message }))
+  }
+}
+
+export { createUser, getUsers, updateUser, getUser }
