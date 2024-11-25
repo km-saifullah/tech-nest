@@ -32,6 +32,21 @@ const addCategory = async (req, res) => {
   }
 }
 
+// @desc:  update category
+// @route: PUT /api/v1/categories/:id
+const updateCategory = async (req, res) => {
+  try {
+    const { categoryName, slug } = req.body
+    if (!categoryName && categoryName === '') {
+      return res.status(400).json(apiResponse(400, 'category name is required'))
+    }
+  } catch (error) {
+    return res
+      .status(400)
+      .json(apiResponse(400, 'server error', { error: error.message }))
+  }
+}
+
 // @desc:  get all categories
 // @route: GET /api/v1/categories
 const getAllCategories = async (req, res) => {
@@ -50,4 +65,25 @@ const getAllCategories = async (req, res) => {
   }
 }
 
-export { addCategory, getAllCategories }
+// @desc:  get a category by id
+// @route: GET /api/v1/categories/:id
+const getCategory = async (req, res) => {
+  try {
+    const { id } = req.params
+    const category = await Category.findById({ _id: id }).populate(
+      'subCategory'
+    )
+    return res.status(200).json(
+      apiResponse(200, 'single category', {
+        data: category,
+        result: category.length,
+      })
+    )
+  } catch (error) {
+    return res
+      .status(500)
+      .json(apiResponse(500, 'internal server error', { error: error.message }))
+  }
+}
+
+export { addCategory, getCategory, getAllCategories, updateCategory }
