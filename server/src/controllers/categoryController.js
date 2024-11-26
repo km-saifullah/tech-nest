@@ -86,4 +86,26 @@ const getCategory = async (req, res) => {
   }
 }
 
-export { addCategory, getCategory, getAllCategories, updateCategory }
+// @desc:  delete a category by id
+// @route: DELETE /api/v1/categories/:id
+const deleteCategory = async (req, res) => {
+  try {
+    let { id } = req.params
+    const category = await Category.findOne({ _id: id })
+    if (!category) {
+      return res.status(400).json(apiResponse(404, 'category does not find'))
+    }
+  } catch (error) {
+    return res
+      .status(400)
+      .json(apiResponse(400, 'server error', { error: error.message }))
+  }
+}
+
+export {
+  addCategory,
+  getCategory,
+  getAllCategories,
+  updateCategory,
+  deleteCategory,
+}
