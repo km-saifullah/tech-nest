@@ -14,6 +14,17 @@ const reviewSchema = new Schema(
         type: String,
       },
     ],
+    product: {
+      type: mongoose.Types.ObjectId,
+      ref: 'Product',
+    },
+    user: {
+      type: mongoose.Types.ObjectId,
+      ref: 'User',
+    },
+    totalReviews: {
+      type: Number,
+    },
   },
   { timestamps: true }
 )
