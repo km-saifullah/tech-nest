@@ -36,14 +36,44 @@ const addCategory = async (req, res) => {
 // @route: PUT /api/v1/categories/:id
 const updateCategory = async (req, res) => {
   try {
+    const { id } = req.params
     const { categoryName, slug } = req.body
-    if (!categoryName && categoryName === '') {
-      return res.status(400).json(apiResponse(400, 'category name is required'))
+
+    const category = await Category.findById(id)
+    if (!category) {
+      return res.status(404).json(apiResponse(404, 'category not found'))
     }
+
+    // check if the new category name is already in use by another category
+    if (categoryName && categoryName !== category.categoryName) {
+      const categoryNameFound = await Category.findOne({ categoryName })
+      if (categoryNameFound) {
+        return res
+          .status(400)
+          .json(apiResponse(400, 'category name is not available'))
+      }
+    }
+
+    // generate or update slug
+    let newSlug = slug
+    if (!slug && categoryName) {
+      newSlug = categoryName.replaceAll(' ', '-').toLowerCase()
+    }
+
+    // update category fields
+    category.categoryName = categoryName || category.categoryName
+    category.slug = newSlug || category.slug
+
+    // save the updated category
+    const updatedCategory = await category.save()
+
+    return res
+      .status(200)
+      .json(apiResponse(200, 'Category updated successfully', updatedCategory))
   } catch (error) {
     return res
-      .status(400)
-      .json(apiResponse(400, 'server error', { error: error.message }))
+      .status(500)
+      .json(apiResponse(500, 'Internal server error', { error: error.message }))
   }
 }
 
@@ -93,7 +123,7 @@ const deleteCategory = async (req, res) => {
     let { id } = req.params
     const category = await Category.findOne({ _id: id })
     if (!category) {
-      return res.status(400).json(apiResponse(404, 'category does not find'))
+      return res.status(400).json(apiResponse(404, 'category not found'))
     }
   } catch (error) {
     return res
