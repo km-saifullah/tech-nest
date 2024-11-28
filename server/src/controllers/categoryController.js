@@ -120,15 +120,24 @@ const getCategory = async (req, res) => {
 // @route: DELETE /api/v1/categories/:id
 const deleteCategory = async (req, res) => {
   try {
-    let { id } = req.params
-    const category = await Category.findOne({ _id: id })
+    const { id } = req.params
+
+    // Check if the category exists
+    const category = await Category.findById(id)
     if (!category) {
-      return res.status(400).json(apiResponse(404, 'category not found'))
+      return res.status(404).json(apiResponse(404, 'category not found'))
     }
+
+    // delete the category
+    await Category.findByIdAndDelete({ _id: id })
+
+    return res
+      .status(200)
+      .json(apiResponse(200, 'Category deleted successfully'))
   } catch (error) {
     return res
-      .status(400)
-      .json(apiResponse(400, 'server error', { error: error.message }))
+      .status(500)
+      .json(apiResponse(500, 'Internal server error', { error: error.message }))
   }
 }
 

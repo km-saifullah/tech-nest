@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import {
   addCategory,
+  deleteCategory,
   getAllCategories,
   getCategory,
   updateCategory,
@@ -14,6 +15,6 @@ router
   .route('/add-category')
   .post(protectAuth, addCategoryValidation, addCategory)
 router.route('/').get(getAllCategories)
-router.route('/:id').get(getCategory).put(updateCategory)
+router.route('/:id').get(getCategory).put(updateCategory).delete(deleteCategory)
 
 export default router
