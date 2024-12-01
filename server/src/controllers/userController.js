@@ -71,7 +71,7 @@ const updateUser = async (req, res) => {
 
         return res
           .status(200)
-          .json(apiResponse(200, 'profile image upload successfully'))
+          .json(apiResponse(200, 'profile image upload successfully', user))
       }
     }
   } catch (error) {
