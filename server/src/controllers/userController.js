@@ -64,11 +64,7 @@ const updateUser = async (req, res) => {
           user.fullName,
           'profileImage'
         )
-        // cloudinaryImage.optimizeUrl || cloudinaryImage.uploadResult || cloudinaryImage.uploadResult.public_id
-        // user.profileImage = cloudinaryImage.optimizeUrl
-        // user.publicId = cloudinaryImage.uploadResult.public_id
-        user.profileImage =
-          cloudinaryImage.optimizeUrl || cloudinaryImage.uploadResult.secure_url
+        user.profileImage = cloudinaryImage.uploadResult.url
         user.publicId = cloudinaryImage.uploadResult.public_id
         await user.save()
 
