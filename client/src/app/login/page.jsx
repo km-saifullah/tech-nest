@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 import config from "@/config/config";
 import Image from "next/image";
 import signup_image from "/public/signup_image.png";
@@ -17,16 +17,6 @@ const Login = () => {
     email: "",
     password: "",
   });
-  const router = useRouter();
-
-  const [cookieValue, setCookieValue] = useState("");
-
-  useEffect(() => {
-    // Get the value of the cookie named 'name'
-    const cookie = Cookies.get("token");
-    console.log("cookie:", cookie);
-    setCookieValue(cookie || "No cookie found");
-  }, []);
 
   // login input fields
   const handleLoginData = (e) => {
@@ -47,22 +37,13 @@ const Login = () => {
 
         const loginLink = `${config.baseUrl}/${config.loginUrl}`;
         console.log(loginLink);
-        const loggedInUser = await axios.post(loginLink, loginData, {
-          withCredentials: true, // Enable credentials
-        });
+        const loggedInUser = await axios.post(loginLink, loginData);
         console.log(loggedInUser);
-        // localStorage.setItem(
-        //   "dataToken",
-        //   JSON.stringify(loggedInUser.data.data.token)
-        // );
 
         setLoginData({
           email: "",
           password: "",
         });
-        console.log(cookieValue);
-
-        router.push("/");
       } catch (error) {
         // if (error.response) {
         //   console.log(error.response.data); // Server response with details

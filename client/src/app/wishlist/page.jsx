@@ -4,11 +4,9 @@ import Image from "next/image";
 import cooler from "/public/cooler.png";
 import keybaord from "/public/ak_keyboard.png";
 import gamepad from "/public/usb_gamepad.png";
-import ProtectedRoute from "@/components/ProtechRoutes";
 
 const Wishlist = () => {
   return (
-    <ProtectedRoute>
       <section className="">
         <div className="container">
           <div className="pt-20 pb-14 flex items-center justify-between">
@@ -183,7 +181,6 @@ const Wishlist = () => {
           </div>
         </div>
       </section>
-    </ProtectedRoute>
   );
 };
 

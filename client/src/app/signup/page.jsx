@@ -1,11 +1,11 @@
 "use client";
-import Image from "next/image";
-import { FcGoogle } from "react-icons/fc";
-import signup_image from "/public/signup_image.png";
-import Link from "next/link";
 import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import axios from "axios";
 import EmailConfirmationModal from "@/components/Modal";
+import signup_image from "/public/signup_image.png";
+import { FcGoogle } from "react-icons/fc";
 
 const Signup = () => {
   const [registerData, setRegisterData] = useState({
@@ -30,7 +30,7 @@ const Signup = () => {
   const handleCreateAccount = async (e) => {
     console.log(registerData);
     e.preventDefault();
-    const createAccountUrl = "http://localhost:8000/api/v1/users";
+    const createAccountUrl = "https://tech-nest-2xsb.onrender.com/api/v1/users";
     try {
       const response = await axios.post(createAccountUrl, registerData);
       console.log(response);
