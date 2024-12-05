@@ -117,6 +117,21 @@ const emailVerification = async (req, res) => {
   }
 }
 
+// @desc:  resend verification link
+// @route: POST /api/v1/
+const resendVerifyEmail = async (req, res) => {
+  try {
+    const { email } = req.body
+    const user = await User.findOne({ email })
+
+
+  } catch (error) {
+    return res
+      .status(400)
+      .json(apiResponse(400, 'server error', { error: error.message }))
+  }
+}
+
 // forgot password
 const forgotPassword = async (req, res, next) => {
   // get user based on posted email
@@ -221,4 +236,5 @@ export {
   emailVerification,
   forgotPassword,
   resetPassword,
+  resendVerifyEmail,
 }

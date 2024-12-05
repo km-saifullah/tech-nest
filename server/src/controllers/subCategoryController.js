@@ -59,4 +59,28 @@ const getAllSubCategories = async (req, res) => {
       .json(apiResponse(500, 'internal server error', { error: error.message }))
   }
 }
-export { addSubCategory, getAllSubCategories }
+
+// @desc:  get a sub-category
+// @route: GET /api/v1/sub-categories/:id
+const getSubCategory = async (req, res) => {
+  try {
+    const { id } = req.params
+    const subCategory = await SubCategory.findById({ _id: id }).populate(
+      'category'
+    )
+    return res
+      .status(200)
+      .json(
+        apiResponse(
+          200,
+          'single sub category by id fetched successfully',
+          subCategory
+        )
+      )
+  } catch (error) {
+    return res
+      .status(400)
+      .json(apiResponse(400, 'server error', { error: error.message }))
+  }
+}
+export { addSubCategory, getAllSubCategories, getSubCategory }
