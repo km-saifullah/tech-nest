@@ -83,4 +83,28 @@ const getSubCategory = async (req, res) => {
       .json(apiResponse(400, 'server error', { error: error.message }))
   }
 }
-export { addSubCategory, getAllSubCategories, getSubCategory }
+
+// @desc:  delete a sub-category by id
+// @route: DELETE /api/v1/sub-categories/:id
+const deleteSubCategory = async (req, res) => {
+  try {
+    const { id } = req.params
+    const subCategory = await SubCategory.findById({ _id: id })
+    if (!subCategory) {
+      return res.status(404).json(apiResponse(404, 'sub-category not found'))
+    }
+
+    await SubCategory.findByIdAndDelete({ _id: id })
+  } catch (error) {
+    return res
+      .status(400)
+      .json(apiResponse(400, 'server error', { error: error.message }))
+  }
+}
+
+export {
+  addSubCategory,
+  getAllSubCategories,
+  getSubCategory,
+  deleteSubCategory,
+}
