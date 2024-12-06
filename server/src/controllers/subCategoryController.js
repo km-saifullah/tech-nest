@@ -95,6 +95,7 @@ const deleteSubCategory = async (req, res) => {
     }
 
     await SubCategory.findByIdAndDelete({ _id: id })
+    return res.status(200).json(apiResponse(200, 'Sub-category deleted'))
   } catch (error) {
     return res
       .status(400)
