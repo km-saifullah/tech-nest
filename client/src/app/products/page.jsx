@@ -50,7 +50,7 @@ const Products = () => {
                   Premium quality
                 </p>
                 <h3 className="text-secondary font-semibold font-poppins text-base leading-6">
-                  {item.inventory[0].sellingPrice} BDT
+                  {item?.inventory[0]?.sellingPrice} BDT
                 </h3>
                 <div>
                   <button className="bg-secondary text-white text-base font-poppins font-normal leading-6 px-4 py-2 rounded">
