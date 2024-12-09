@@ -39,4 +39,20 @@ const getReviews = async (req, res) => {
       .json(apiResponse(400, 'server error', { error: error.message }))
   }
 }
-export { createReview, getReviews }
+
+// @desc:  delete a review by id
+// @route: DELETE /api/v1/reviews/:id
+const deleteReview = async (req, res) => {
+  try {
+    const { id } = req.params
+    await Review.findByIdAndDelete({ _id: id })
+
+    return res.status(200).json(apiResponse(200, 'review deleted successfully'))
+  } catch (error) {
+    return res
+      .status(400)
+      .json(apiResponse(400, 'server error', { error: error.message }))
+  }
+}
+
+export { createReview, getReviews, deleteReview }
