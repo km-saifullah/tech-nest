@@ -7,7 +7,9 @@ const createReview = async (req, res) => {
   try {
     const { rating, comment, product, user } = req.body
 
-    console.log('hello review')
+    const review = await Review.create({ rating, comment, product, user })
+
+    return res.status(201).json(apiResponse(201, 'review posted', review))
   } catch (error) {
     return res
       .status(400)
@@ -20,6 +22,16 @@ const createReview = async (req, res) => {
 const getReviews = async (req, res) => {
   try {
     const reviews = await Review.find({})
+      .populate({
+        path: 'user',
+        select:
+          '-password -email -role -phoneNumber -emailVerified -updatedAt -__v -createdAt -publicId -refreshToken',
+      })
+      .populate({
+        path: 'product',
+        select:
+          '-gallery -inventory -createdAt -updatedAt -category -subCategory',
+      })
     return res.status(200).json(apiResponse(200, 'get all reviews', reviews))
   } catch (error) {
     return res
