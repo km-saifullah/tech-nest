@@ -83,7 +83,7 @@ const addProduct = async (req, res) => {
 const getAllProducts = async (req, res) => {
   try {
     // pagination
-    const { page, limit, category, subCategory } = req.query
+    const { page, limit, category, subCategory, sort, quantity } = req.query
 
     const shouldPaginate = page && limit
     const currentPage = shouldPaginate ? Math.max(Number(page), 1) : 1
@@ -139,13 +139,38 @@ const getAllProducts = async (req, res) => {
     let products = await Product.find(filter)
       .populate({ path: 'category', select: 'categoryName' })
       .populate('subCategory')
-      .populate('inventory')
+      .populate({
+        path: 'inventory',
+        select: 'sellingPrice quantity',
+      })
 
-    // if (shouldPaginate) {
-    //   query = query.skip(skip).limit(baseLimit)
-    // }
+    // filter by quantity
+    if (quantity) {
+      const minQuantity = Number(quantity)
+      products = products.filter((product) =>
+        product.inventory.some((inv) => inv.quantity >= minQuantity)
+      )
+    }
 
-    // const products = await query
+    // sorting by price and quantity
+    if (sort === 'priceLowToHigh') {
+      products = products.sort(
+        (a, b) => a.inventory[0]?.sellingPrice - b.inventory[0]?.sellingPrice
+      )
+    } else if (sort === 'priceHighToLow') {
+      products = products.sort(
+        (a, b) => b.inventory[0]?.sellingPrice - a.inventory[0]?.sellingPrice
+      )
+    } else if (sort === 'quantityLowToHigh') {
+      products = products.sort(
+        (a, b) => a.inventory[0]?.quantity - b.inventory[0]?.quantity
+      )
+    } else if (sort === 'quantityHighToLow') {
+      products = products.sort(
+        (a, b) => b.inventory[0]?.quantity - a.inventory[0]?.quantity
+      )
+    }
+
     return res.status(200).json(
       apiResponse(200, 'all products data fetched', {
         products,
