@@ -116,7 +116,10 @@ const updateInventory = async (req, res) => {
 const getInventories = async (req, res) => {
   try {
     const inventories = await Inventory.find({})
-      .populate('productVariation')
+      .populate({
+        path: 'productVariation', // Populate productVariation
+        select: '-_id -__v', // Exclude _id and __v fields from productVariation
+      })
       .populate('product')
     return res.status(200).json(
       apiResponse(200, 'all inventories fetched successfully', {

@@ -2,9 +2,17 @@ import mongoose, { Schema } from 'mongoose'
 
 const productVariationSchema = new Schema(
   {
-    variationName: {
-      type: String,
+    productId: {
+      type: mongoose.Types.ObjectId,
+      ref: 'Product',
+      required: true,
     },
+    variations: [
+      {
+        attribute: { type: String, required: true },
+        value: { type: String, required: true },
+      },
+    ],
   },
   { timestamps: true }
 )

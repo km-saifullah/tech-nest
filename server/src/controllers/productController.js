@@ -142,6 +142,10 @@ const getAllProducts = async (req, res) => {
       .populate({
         path: 'inventory',
         select: 'sellingPrice quantity',
+        populate: {
+          path: 'productVariation',
+          select: '-_id -__v -createdAt -updatedAt',
+        },
       })
 
     // filter by quantity
@@ -196,7 +200,14 @@ const getProductById = async (req, res) => {
     const product = await Product.findOne({ _id: id })
       .populate('category')
       .populate('subCategory')
-      .populate('inventory')
+      .populate({
+        path: 'inventory',
+        select: 'sellingPrice quantity',
+        populate: {
+          path: 'productVariation',
+          select: '-_id -__v -createdAt -updatedAt',
+        },
+      })
 
     // if product does not found
     if (!product) {
