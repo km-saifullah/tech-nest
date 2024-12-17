@@ -27,6 +27,25 @@ const createCart = async (req, res) => {
   }
 }
 
+// @desc:  get all carts
+// @route: GET /api/v1/carts
+const getCarts = async (req, res) => {
+  try {
+    const { id } = req.params
+    const cartsFound = await Cart.find({})
+      .populate('user')
+      .populate('product')
+      .populate('inventory')
+
+    const carts = { cart: cartsFound, total: cartsFound.length }
+    return res.status(200).json(apiResponse(200, 'all carts', carts))
+  } catch (error) {
+    return res
+      .status(400)
+      .json(apiResponse(400, 'server error', { error: error.message }))
+  }
+}
+
 // @desc:  delete cart
 // @route: DELETE /api/v1/:id
 const deleteCart = async (req, res) => {
@@ -45,4 +64,4 @@ const deleteCart = async (req, res) => {
   }
 }
 
-export { createCart, deleteCart }
+export { createCart, deleteCart, getCarts }
