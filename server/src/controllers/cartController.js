@@ -27,4 +27,22 @@ const createCart = async (req, res) => {
   }
 }
 
-export { createCart }
+// @desc:  delete cart
+// @route: DELETE /api/v1/:id
+const deleteCart = async (req, res) => {
+  try {
+    const { id } = req.params
+    const cartFound = await Cart.findById({ _id: id })
+    if (!cartFound) {
+      return res.status(404).json(apiResponse(404, 'cart not found'))
+    }
+    await Cart.findByIdAndDelete(id)
+    return res.status(200).json(apiResponse(200, 'cart deleted'))
+  } catch (error) {
+    return res
+      .status(400)
+      .json(apiResponse(400, 'server error', { error: error.message }))
+  }
+}
+
+export { createCart, deleteCart }
