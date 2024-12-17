@@ -9,6 +9,7 @@ import productRouter from './routes/productRoutes.js'
 import productVariationRouter from './routes/productVariationRoutes.js'
 import inventoryRouter from './routes/inventoryRoutes.js'
 import reviewRouter from './routes/reviewRoutes.js'
+import cartRouter from './routes/cartRoute.js'
 import cookieParser from 'cookie-parser'
 
 // convert `import.meta.url` to __dirname
@@ -61,5 +62,8 @@ app.use('/api/v1/inventories/', inventoryRouter)
 
 // review routes
 app.use('/api/v1/reviews', reviewRouter)
+
+// cart routes
+app.use('/api/v1/carts/', cartRouter)
 
 export default app
