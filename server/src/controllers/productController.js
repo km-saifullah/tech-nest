@@ -92,18 +92,20 @@ const getAllProducts = async (req, res) => {
     const filter = {}
 
     // filter by categoryName
-    let categoryId
     if (category) {
-      const foundCategory = await Category.findOne({
-        categoryName: { $regex: category, $options: 'i' },
+      const categoryNames = category.split(',')
+      const foundCategories = await Category.find({
+        categoryName: { $in: categoryNames.map((cat) => new RegExp(cat, 'i')) },
       })
-      if (foundCategory) {
-        categoryId = foundCategory._id
+
+      if (foundCategories.length > 0) {
+        const categoryIds = foundCategories.map((cat) => cat._id)
+        filter.category = { $in: categoryIds }
       } else {
         return res
           .status(200)
           .json(
-            apiResponse(200, 'no products found for the specified category')
+            apiResponse(200, 'no products found for the specified categories')
           )
       }
     }
@@ -123,10 +125,6 @@ const getAllProducts = async (req, res) => {
             apiResponse(200, 'no products found for the specified subCategory')
           )
       }
-    }
-
-    if (categoryId) {
-      filter.category = categoryId
     }
     if (subCategoryId) {
       filter.subCategory = subCategoryId
