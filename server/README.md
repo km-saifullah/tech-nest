@@ -1,6 +1,6 @@
 # TechNest Backend - E-commerce Application API
 
-This is an api for TechNest e-commerce application.
+This is an api for TechNest e-commerce application. Using this api you can run an e-commerce business. Here I have implemented from user authentication to product order's all feature of an e-commerce application.
 
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
 ![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
@@ -28,7 +28,7 @@ npm install
 ```
 
 4. Setup **.env** file:
-   First create a file as **.env** in server directory. Then copy the contents from the **.env.sample** file and paste that to the **.env** file and give your values according to the environment variable.
+   First create a file as **.env** in the server directory. Then copy the contents from the **.env.sample** file and paste that to the **.env** file and give your values according to the environment variable.
 
 ```bash
 DATABASE_URL=your-mongodb-uri
@@ -52,6 +52,15 @@ CLOUDINARY_API_KEY=your-cloudinary-api-key
 ```bash
 npm run dev
 ```
+
+### API Features
+
+- User authentication and authorization
+- Manage product category and sub-category
+- Manage product product variation
+- Manage product and product inventory
+- Manage cart and order
+- Customer review system also implemented
 
 ### Full Documentation
 
