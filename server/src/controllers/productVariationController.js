@@ -50,6 +50,45 @@ const getProductVariations = async (req, res) => {
   }
 }
 
+// @desc:  update product variation
+// @route: PUT /api/v1/product-variations/:id
+const updateProductVariation = async (req, res) => {
+  try {
+    const { id } = req.params
+    const { variations, productId } = req.body
+
+    const variationFound = await ProductVariation.findById({ _id: id })
+    if (!variationFound) {
+      return res
+        .status(404)
+        .json(apiResponse(404, 'product variation not found'))
+    }
+
+    const product = await Product.findById(productId)
+    if (!product) {
+      return res.status(404).json(apiResponse(404, 'product not found'))
+    }
+
+    variationFound.productId = productId
+    variationFound.variations = variations
+    await variationFound.save()
+
+    return res
+      .status(200)
+      .json(
+        apiResponse(
+          200,
+          'product variation updated successfully',
+          variationFound
+        )
+      )
+  } catch (error) {
+    return res
+      .status(400)
+      .json(apiResponse(400, 'server error', { error: error.message }))
+  }
+}
+
 // @desc:  delete product variation by id
 // @route: DELETE /api/v1/product-variations/:id
 const deleteVariation = async (req, res) => {
@@ -70,4 +109,9 @@ const deleteVariation = async (req, res) => {
   }
 }
 
-export { createProductVariation, getProductVariations, deleteVariation }
+export {
+  createProductVariation,
+  getProductVariations,
+  updateProductVariation,
+  deleteVariation,
+}
